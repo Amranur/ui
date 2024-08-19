@@ -1,0 +1,50 @@
+@HOST=http://0.0.0.0:8001
+//@TOKEN= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwiZXhwIjoxNzI0MTYwMjc0fQ.Wnf61DAsPtNdu_yjNjnnM9JRCB2UtlE2sq5qUrrWdag
+@TOKEN= eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI0MDQ2NzcwfQ.kydIUzitvV5dMPmKezXLMzC2JqExYsHDgELASO3mquc
+@apikey= 7a33ed5b-e981-4ceb-b9c9-5007e2eef477
+###
+POST {{HOST}}/login?email=reer2&password=1234 HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{TOKEN}}
+
+###
+POST {{HOST}}/register?email=reer2&password=1234&name=kk&city=jj HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{TOKEN}}
+
+
+###
+POST {{HOST}}/generate-api-key HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{TOKEN}}
+
+###
+POST {{HOST}}/disable-api-key?api_key={{apikey}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{TOKEN}}
+
+###
+GET {{HOST}}/api-keys HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{TOKEN}}
+
+###
+GET {{HOST}}/api-keys-all HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{TOKEN}}
+
+###
+GET {{HOST}}/request-logs?api_key={{apikey}} HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{TOKEN}}
+
+
+###
+GET {{HOST}}/search?query=about bd&api_key={{apikey}} HTTP/1.1
+content-type: application/json
+
+
+###
+GET {{HOST}}/user-data HTTP/1.1
+content-type: application/json
+Authorization: Bearer {{TOKEN}}
