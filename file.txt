@@ -1,0 +1,17 @@
+docker run --rm -d   -p 32778:8080   -v "${PWD}/searxng:/etc/searxng"   -e "BASE_URL=http://localhost:32778"   -e "INSTANCE_NAME=my-instance"   searxng/searxng
+
+
+make docker .build
+sudo chmod 666 /var/run/docker.sock
+ls -l /var/run/docker.sock
+sudo systemctl start docker
+cd searxng
+git clone https://github.com/searxng/searxng.git
+source px/bin/activate
+python3.11 -m venv px
+sudo apt install python3.11
+sudo apt update
+
+
+
+
