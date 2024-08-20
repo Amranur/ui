@@ -1,128 +1,521 @@
-﻿<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="description" content="Say hello to Tavily, your AI researcher for rapid insights and comprehensive research."><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="favicon.ico"><title>Tavily - API Agreement</title><meta name="next-head-count" content="5"><link rel="preload" href="_next/static/css/172d592c3e8d4189.css" as="style"><link rel="stylesheet" href="_next/static/css/172d592c3e8d4189.css" data-n-g=""><noscript data-n-css=""></noscript><script defer="" nomodule="" src="_next/static/chunks/polyfills-c67a75d1b6f99dc8.js"></script><script src="_next/static/chunks/webpack-59c5c889f52620d6.js" defer=""></script><script src="_next/static/chunks/framework-2c79e2a64abdb08b.js" defer=""></script><script src="_next/static/chunks/main-f11614d8aa7ee555.js" defer=""></script><script src="_next/static/chunks/pages/_app-10a98717eb22ad5e.js" defer=""></script><script src="_next/static/chunks/526-3a9abb49c05688c3.js" defer=""></script><script src="_next/static/chunks/pages/policy-e943a299a68ab694.js" defer=""></script><script src="_next/static/3CewsKP9Z5e9X948ULI5U/_buildManifest.js" defer=""></script><script src="_next/static/3CewsKP9Z5e9X948ULI5U/_ssgManifest.js" defer=""></script></head><body class="bg-gray-900"><div id="__next"><div><header class="fixed w-full z-50 top-0 left-0 right-0 bg-transparent transition-colors duration-300"><div class="custom-screen md:hidden"><div class="md:hidden w-full"><div class="container flex mx-auto items-center justify-between md:block p-2"><div class=""><a class="flex nav-logo-text items-center text-4xl text-white" href="index.htm"><img alt="Tavily Logo" src="_next/static/media/logo.b3d36071.svg" width="44" height="8" decoding="async" data-nimg="1" loading="lazy" style="color:transparent;transform:rotate(0deg);transition:transform 0.7s ease-in-out"><div class="flex px-2 mt-1 nav-logo-text text-4xl  text-white">tavily</div></a></div><div class="flex items-center space-x-4"><a target="_blank" class="hidden text-white" href="https://status.tavily.com">Operational<span class="text-green-500 ml-2">●</span></a><button role="button" aria-label="Open the menu" class="text-gray-400 hover:text-gray-50"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path></svg></button></div></div></div></div><nav class="md:text-lg md:static md:block transition-all hidden py-4"><div class="sun-nav custom-screen items-center md:justify-between md:flex"><div class="md:hidden w-full"><div class="container flex mx-auto items-center justify-between md:block p-2"><div class=""><a class="flex nav-logo-text items-center text-4xl text-white" href="index.htm"><img alt="Tavily Logo" src="_next/static/media/logo.b3d36071.svg" width="44" height="8" decoding="async" data-nimg="1" loading="lazy" style="color:transparent;transform:rotate(0deg);transition:transform 0.7s ease-in-out"><div class="flex px-2 mt-1 nav-logo-text text-4xl  text-white">tavily</div></a></div><div class="flex items-center space-x-4"><a target="_blank" class="hidden text-white" href="https://status.tavily.com">Operational<span class="text-green-500 ml-2">●</span></a><button role="button" aria-label="Open the menu" class="text-gray-400 hover:text-gray-50"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path></svg></button></div></div></div><div class="basis-4/12 hidden md:block flex items-center text-4xl font-semi-bold text-white"><a class="flex items-center" href="index.htm"><div style="transform:rotate(0deg);transition:transform 0.7s ease-in-out"><img alt="Tavily Logo" src="_next/static/media/logo.b3d36071.svg" width="44" height="8" decoding="async" data-nimg="1" loading="lazy" style="color:transparent"></div><span class="ml-2 mt-2 nav-logo-text text-5xl">tavily</span></a></div><div class="basis-4/12 pb-4 md:pb-0 items-center md:mt-0 md:flex md:justify-center text-white hidden"><ul class="flex-1  justify-center items-center px-2 md:px-0 md:flex md:space-x-10"><li class="hover:text-gray-500mb-1"><a class="block" target="" href="index.htm#api">API</a></li><li class="hover:text-gray-500mb-1"><a class="block" target="" href="index.htm#pricing">Pricing</a></li><li class="hover:text-gray-500mb-1"><a class="block" target="" href="index.htm#faqs">FAQ</a></li><li class="hover:text-gray-500mb-1"><a class="block" target="_blank" href="https://docs.tavily.com">Documentation</a></li><li class="hover:text-gray-500mb-1"><a class="block" target="_blank" href="https://community.tavily.com">Community</a></li><li class="md:hidden"><a target="_blank" href="https://app.tavily.com"><div class="flex items-center">Dashboard<span class="px-2"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewbox="0 0 512 512" focusable="false" class="chakra-icon css-1arui3b" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"></path></svg></span></div></a></li></ul></div><div class="basis-4/12 flex space-x-4 items-center justify-end md:ml-5"><a target="_blank" class="hidden md:block px-3 py-1 rounded-lg text-black bg-white hover:bg-gray-500 transition-all duration-300" href="https://app.tavily.com">Dashboard</a><a target="_blank" class="flex items-center hidden md:block text-white" href="https://status.tavily.com">Operational<span class="text-green-500 ml-2">●</span></a></div></div></nav></header><main><main class="w-full flex flex-col items-center px-4 mt-20"><div class="max-w-3xl w-full prose prose-headings:text-gray-300 text-gray-300"><h1>Tavily Search API Agreement</h1>
-<p>Greetings, and welcome to your journey with Tavily Technologies Inc. (&quot;Tavily.com,&quot; &quot;Tavily,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) and our online presence at www.tavily.com, which includes our Tavily Search API, related websites, networks, applications, mobile applications, and other offerings provided by us (together, the &quot;Tavily Service&quot;). This Tavily Search API Agreement constitutes a binding legal agreement between you (&quot;you,&quot; &quot;your&quot;) and Tavily regarding your use of the Tavily Service.</p>
-<h2>Please Review These Terms Thoroughly</h2>
-<p>BY SELECTING &quot;I AGREE,&quot; DOWNLOADING, INSTALLING, OR OTHERWISE ACCESSING OR UTILIZING THE TAVILY SERVICE, YOU ACKNOWLEDGE THAT YOU HAVE READ AND COMPREHENDED THESE TERMS AND CONDITIONS, INCLUDING TAVILY&#x27;S PRIVACY POLICY (COLLECTIVELY REFERRED TO AS &quot;TERMS&quot;), AND YOU CONSENT TO BE LEGALLY BOUND BY THEM AS A PRECONDITION OF YOUR USAGE OF THE TAVILY SERVICE. IF YOU ARE NOT QUALIFIED OR DO NOT CONSENT TO THESE TERMS, YOU ARE HEREBY DENIED PERMISSION TO UTILIZE THE TAVILY SERVICE. YOUR ENGAGEMENT WITH THE TAVILY SERVICE, AND TAVILY&#x27;S DELIVERY OF THE SERVICE TO YOU, SIGNIFIES A MUTUAL AGREEMENT TO ADHERE TO THESE TERMS.</p>
-<h2>Definitions</h2>
-<ol>
-<li>&quot;API&quot; refers to the Tavily Search API, including any API Documentation, API Materials, and other related resources provided to you by Tavily, specifically through the website and pages under the Tavily.com domain (collectively, the &quot;Tavily Website&quot;), along with any subsequent Updates.</li>
-<li>&quot;API Documentation&quot; denotes the collection of API instructions and guidelines that Tavily makes available to you periodically, notably via the Tavily Website, inclusive of any subsequent Updates.</li>
-<li>&quot;API Key&quot; signifies the security credentials Tavily issues to enable your access to the API.</li>
-<li>&quot;API Materials&quot; encompasses any data or information provided to you through the API or by any other authorized means by Tavily, including any replicated or derivative works thereof, and any Content.</li>
-<li>&quot;Applications&quot; implies any software or applications that you develop to interface with the API.</li>
-<li>&quot;Content&quot; includes any search results, images, data, third-party content, or other materials that Tavily makes accessible to you through the Tavily Service.</li>
-<li>&quot;Tavily Marks&quot; refers to Tavily&#x27;s proprietary trademarks, trade names, branding, or logos that are provided for use in connection with the API under this Agreement.</li>
-<li>&quot;Tavily Offering&quot; describes Tavily&#x27;s software as detailed on the Tavily Website.</li>
-<li>&quot;Services&quot; denotes the API services provided, which grant access to the Content, the Tavily Offering, and any API Materials and API Documentation.</li>
-<li>&quot;Updates&quot; includes any modifications, bug fixes, patches, or other error rectifications to the API that Tavily typically offers at no additional charge to all licensees of the API.</li>
-<li>&quot;Website&quot; refers to Tavily&#x27;s website located at www.tavily.com and any associated subdomains.</li>
-</ol>
-<h2>License</h2>
-<h3>License Grants</h3>
-<p>Subject to your adherence to the terms and conditions of this Agreement, including the timely payment of all applicable Fees, Tavily hereby grants you a limited, revocable, non-exclusive, non-transferable, non-sublicensable license for the duration of this Agreement to utilize the Tavily Search API Services for the following purposes: (i) to employ the API exclusively for internal development of Applications designed to interact and function with the Tavily.com offerings; (ii) to engage with the API; and (iii) with Tavily&#x27;s explicit prior consent, to exhibit certain Tavily Marks in accordance with any usage guidelines that Tavily may provide from time to time, strictly in relation to the use of the API and the Applications, and not in connection with the marketing, promotion, distribution, or sale of any other goods or services. The API Materials are permitted for use in responding to inquiries on your website, but not for training artificial intelligence models, and must not be retained for future use.</p>
-<h3>Use Restrictions</h3>
-<p>You are prohibited from using the Services, the API, or any Tavily Mark for any purpose outside the scope of the license granted in this Agreement. Except as explicitly outlined in this Agreement or as amended in writing by Tavily, you must not, and must not allow others to:</p>
-<ol>
-<li>Store the output from the API or any derivative works thereof (including API Materials and Content), in part or in entirety;</li>
-<li>Rent, lease, lend, sell, sublicense, assign, distribute, publish, transfer, or otherwise make the API accessible, in part or in entirety;</li>
-<li>Reverse engineer, disassemble, decompile, decode, adapt, or attempt to access or discover the source code of any part of the API;</li>
-<li>Circumvent or bypass any rate or service limits, including through the creation of multiple accounts;</li>
-<li>Remove any proprietary notices from the API;</li>
-<li>Utilize the API in any way that infringes upon, misappropriates, or violates any intellectual property right or other rights of any party, or that breaches any applicable law;</li>
-<li>Enter into any licensing agreement that conflicts with this Agreement;</li>
-<li>Use the API in a manner detrimental to Tavily, including its products, services, infrastructure, reputation, or goodwill;</li>
-<li>Integrate the API with unauthorized software, technology, services, or materials;</li>
-<li>Design or allow Applications to disrupt, override, or interfere with Tavily-implemented user communications, consent screens, settings, alerts, or similar functions;</li>
-<li>Use the API in Applications to mimic or attempt to supplant the user experience of Tavily.com offerings;</li>
-<li>Conceal or obscure your or the Applications&#x27; identity when seeking authorization to use the API;</li>
-<li>Copy, store, archive, cache, or create a database of the Content, in part or in entirety;</li>
-<li>Redistribute, resell, or sublicense the Content;</li>
-<li>Employ the Content in any machine learning or algorithmic activities;</li>
-<li>Use the Content to create, refine, assess, or enhance any services offered by you or third parties; or</li>
-<li>Upon the conclusion of this Agreement, retain or fail to eliminate all API Materials in your possession.</li>
-</ol>
-<h3>Enterprise Access</h3>
-<p>Tavily may alter these terms in writing for Customers providing Services to enterprise users (&quot;Enterprise Clients&quot;).</p>
-<h3>Reservation of Rights</h3>
-<p>Tavily reserves all rights not explicitly granted to you herein, including the right to modify rate limits, the format and structure of request responses, and the extent of Content provided in the responses. Apart from the specific rights and licenses granted under this Agreement, nothing herein bestows upon you or any third party, by implication, waiver, estoppel, or otherwise, any intellectual property rights or other right, title, or interest in or to the Tavily Search API.</p>
-<h3>Pricing Changes</h3>
-<p>Tavily reserves the right to modify pricing for the Tavily Search API Services with a 60-day notice to you. Any changes to the pricing will be communicated via the email address provided by you or through an announcement on the Tavily.com website.</p>
-<h2>Your Responsibilities</h2>
-<p>As a user of the Tavily Search API, you bear full responsibility and liability for all activities conducted through your access to the API, whether such activities are authorized by you or are in breach of this Agreement. This includes the conduct of any end users interacting with your Application and their use of the API. Any violation of this Agreement by an end user shall be considered a violation by you. You are obliged to inform your end users of the terms of this Agreement that are relevant to their use of the API and to ensure their compliance with these terms.</p>
-<p>To access and use the Tavily Search API, you must secure an API Key from tavily.com. This API Key is for your use only and must not be shared with third parties. You are required to safeguard your API Key and any associated login credentials. The API Key is your exclusive credential for API access, and Tavily reserves the right to revoke it at any time. Should there be any unauthorized use of your API Key, you must promptly notify Tavily via support@tavily.com as outlined in the Notice provision of this Agreement.</p>
-<p>Your use of the Tavily Search API must adhere to all applicable laws, regulations, and this Agreement&#x27;s terms. Additionally, you must follow any guidelines or requirements posted by Tavily on the tavily.com website, in documentation, or communicated in other ways. You are tasked with monitoring Application usage to prevent and address any illegal or inappropriate activities, including taking action against users who violate these terms. It is your responsibility to provide necessary privacy notices and obtain consents from end users as required by law for their use of the Application.</p>
-<p>The Tavily Search API must not be used to support, promote, or engage in illegal activities, including but not limited to the distribution of malware, counterfeit goods, embargoed items, spam emails, pyramid schemes, hate content, hacking tools, or any products or services that are illegal or unethical.</p>
-<p>You are expected to protect the API and any related materials (including all copies thereof) from infringement, misappropriation, or unauthorized access using commercially reasonable efforts. Should you become aware of any infringement of intellectual property rights related to the API, you are to notify Tavily immediately and cooperate fully in any protective legal actions.</p>
-<p>In any product that incorporates the Tavily Search API, you may use the phrase “POWERED BY Tavily” to acknowledge the underlying technology. Tavily reserves the right to oversee your use of the Tavily Marks on your site, which may include requiring changes to the display of these marks or revoking your permission to use them, in accordance with Tavily&#x27;s guidelines. Your use of the Tavily Marks does not confer any ownership or rights to you, and all associated goodwill will benefit Tavily. You must not imply a partnership, sponsorship, or endorsement by Tavily without express written consent from Tavily, which may be given or withheld at Tavily&#x27;s discretion. Unless otherwise agreed, Tavily may use your company or product name, screenshots, or other depictions of your Application for marketing or demonstrating the API.</p>
-<h2>Updates</h2>
-<p>Throughout the duration of this Agreement, Tavily may supply modifications or enhancements to the Tavily Search API (collectively, &quot;Modifications&quot;), which shall be included under the API&#x27;s terms and conditions. You acknowledge that Tavily may mandate the adoption of the most current version of the Tavily Search API. Such Modifications may change the way Applications interact with Tavily&#x27;s offerings. It is your responsibility to implement any necessary adjustments to the Applications for continued compatibility following such Modifications, at your own expense. Tavily will strive to provide you with reasonable advance notice of significant changes or Modifications. Your continued utilization of the Tavily Search API post-Modification signifies your acceptance of the Modification.</p>
-<h2>Pricing and Payment Terms</h2>
-<h3>Pricing Structure and Subscription Terms</h3>
-<p>You agree to compensate Tavily for services rendered as per the pricing (&quot;Pricing&quot;) listed on tavily.com. Pricing is payable upfront for the specified subscription period. Certain Pricing plans may include a quota of API call credits. Payments can be processed through the electronic methods available on tavily.com. API call credits acquired but not utilized within the subscription period may be retained and used by you for up to one year following the agreement&#x27;s termination. These credits are neither transferable nor refundable. Post-termination use of credits is governed by the terms of this Agreement.</p>
-<p>Tavily reserves the right to modify its Pricing with a notice period of 60 days. All transactions, including deposits and purchases, are final and non-refundable. Payments must be made in U.S. dollars by the due date, via methods specified by Tavily. Except as explicitly stated in this Agreement or as mandated by law, all payments are non-refundable. Failure to remit payment on time may result in Tavily imposing an interest charge on the overdue amount at a monthly rate of 1.5%, calculated daily and compounded monthly, or the maximum rate allowable by law, whichever is lower. You will also be responsible for reimbursing Tavily for all expenses incurred in collecting overdue payments or interest, including legal fees, court costs, and collection agency fees. Tavily may, at its discretion, restrict or suspend your access to the Tavily Search API, its offerings, content, and any other services until all arrears and interest are settled. Such suspension or restriction does not obligate Tavily to you or any third party. Alternatively, Tavily may exercise any other rights under this Agreement, including termination.</p>
-<h3>Tax Responsibilities</h3>
-<p>All Pricing and other amounts due under this Agreement do not include taxes or similar levies. You are liable for all sales, use, excise taxes, and any other similar taxes, duties, and charges imposed by any federal, state, or local governmental entity on the amounts payable under this Agreement, excluding taxes levied on Tavily&#x27;s income. Should you be required to withhold taxes on payments to Tavily, you may deduct such taxes from the owed amount and remit them to the appropriate tax authority. You must promptly obtain and provide Tavily with an official receipt for such withholdings and any other documentation Tavily reasonably requests to claim a foreign tax credit or refund. It is your duty to ensure that any withheld taxes are minimized as much as possible under applicable law.</p>
-<h2>Collection and Utilization of Information</h2>
-<h3>Data Gathering</h3>
-<p>Tavily Search API may gather certain data through the API or the Tavily.com offerings about you or your representatives, including employees, contractors, or agents. By utilizing, accessing, and submitting information to or through the API or Tavily.com offerings, you grant consent for all actions taken by Tavily with respect to your information in accordance with the latest version of Tavily&#x27;s privacy policy and data protection standards, which can be found at <a href="privacy.html">tavily.com/privacy</a>.</p>
-<h3>Service Availability</h3>
-<p>Tavily Search API endeavors to maintain service availability 24/7. However, you acknowledge that there may be occasions when access is disrupted due to technical issues or unforeseen circumstances beyond our control. Tavily shall not be liable for disruptions caused by network or power failures. We reserve the right to temporarily interrupt, suspend, or modify access to the services without prior notice. Tavily&#x27;s services are subject to continuous improvement and may therefore change over time at our discretion.</p>
-<h2>Proprietary Rights and Confidentiality</h2>
-<h3>Intellectual Property</h3>
-<p>You recognize that Tavily and its licensors retain all ownership, including intellectual property rights, in the Tavily Search API, associated documentation, materials, and any content, as well as Tavily&#x27;s offerings and trademarks.</p>
-<h3>Confidentiality</h3>
-<p>The terms of this Agreement, including but not limited to pricing, API materials, documentation, and any related technology, are Tavily&#x27;s confidential information. You are prohibited from disclosing or using Tavily&#x27;s confidential information except as explicitly permitted by this Agreement.</p>
-<h3>Feedback Provision</h3>
-<p>Any feedback, suggestions, ideas, or other inputs provided by you or your representatives regarding the Tavily Search API, Tavily.com offerings, or trademarks (&quot;Feedback&quot;) will be considered non-confidential. You hereby assign to Tavily all rights in the Feedback without any obligation for attribution or compensation. Tavily is free to use this Feedback for any purpose and is not obligated to implement any suggested changes.</p>
-<h3>Warranty Disclaimer</h3>
-<p>You assume all risks associated with the use of our Services. Tavily provides the Services on an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis, with all faults and disclaims all warranties, whether express, implied, or statutory. Tavily specifically disclaims any implied warranties of merchantability, fitness for a particular purpose, and non-infringement. Tavily does not guarantee that the API, content, or services will meet your requirements, be uninterrupted, error-free, or free from harmful components, nor does it assume responsibility for the accuracy or completeness of any data.</p>
-<h3>Indemnification</h3>
-<p>You agree to indemnify and hold harmless Tavily and its affiliates against any claims or liabilities arising from your use of the API, Tavily offerings, content, or trademarks, or any breach of this Agreement. Should Tavily require indemnification, we will notify you promptly. Tavily reserves the right to assume control of the defense with counsel of our choice, and you may not settle any claim without Tavily&#x27;s written consent.</p>
-<h3>Liability Limitation</h3>
-<p>Under no circumstances will Tavily be liable for any indirect, special, incidental, or consequential damages arising from the use of the API or services. Tavily&#x27;s total liability will not exceed the fees you have paid to Tavily in the 12 months preceding the claim. Any claims must be brought within three months of the event giving rise to such claim.</p>
-<h2>Duration and Cessation</h2>
-<h3>Duration</h3>
-<p>The duration of this Agreement commences once the Licensee acknowledges acceptance and remains in effect until terminated as provided herein.</p>
-<h3>Suspension</h3>
-<p>Tavily.com reserves the right to immediately suspend access to the Tavily Search API, associated content, Tavily.com offerings, or other services without prior notice if:</p>
-<ol>
-<li>Tavily.com reasonably concludes that:<!-- -->
-<ul>
-<li>The Licensee&#x27;s usage may cause harm to, or disproportionately burden, Tavily.com&#x27;s systems;</li>
-<li>The Licensee has breached any provision of this Agreement;</li>
-<li>The Licensee&#x27;s actions create potential legal jeopardy for Tavily.com, at Tavily.com&#x27;s sole discretion;</li>
-<li>The continued provision of the API or services is deemed non-viable commercially, at Tavily.com&#x27;s sole discretion;</li>
-</ul>
-</li>
-<li>There is an extended period of inactivity by the Licensee;</li>
-<li>Tavily.com is compelled by a court order or governmental authority;</li>
-<li>The Licensee fails to fulfill payment obligations for the services.</li>
-<li>Tavily.com has given a 60 day notice of its intent to discontinue the services.</li>
-</ol>
-<p>Tavily.com is not liable for any damage or loss resulting from such suspension under the circumstances described above.</p>
-<h3>Termination</h3>
-<p>Subscriptions will persist until terminated. The Licensee may terminate this Agreement at any time by notifying Tavily.com, such as through a request to cancel the subscription via account settings. Tavily.com retains the authority to terminate any subscription at any time, with or without notice to the Licensee, for any reason or no reason, at its sole discretion.</p>
-<h3>Consequences of Expiration or Termination</h3>
-<p>Upon the expiration or termination of this Agreement for any reason, all licenses and rights granted to the Licensee under this Agreement will terminate. The Licensee must discontinue use, destroy, and permanently delete all copies of the Tavily Search API and any Tavily.com trademarks from all devices and systems under their direct or indirect control. All pending payments, if applicable, will immediately become due and payable.</p>
-<h3>Continuation</h3>
-<p>Provisions that, by their nature, should remain in effect beyond the termination or expiration of this Agreement, including but not limited to Sections regarding indemnification, warranty disclaimers, and limitations of liability, will continue to be enforceable post-termination.</p>
-<h2>Miscellaneous</h2>
-<h3>Entire Agreement</h3>
-<p>This Agreement, along with any documents referenced herein and incorporated by reference, represents the complete and exclusive statement of the agreement between the Parties regarding the Tavily Search API, and supersedes all prior negotiations, agreements, and understandings, both oral and written. In the case of any discrepancies between the main body of this Agreement and any incorporated documents, the provisions of this Agreement shall take precedence.</p>
-<h3>Remedies for Breach</h3>
-<p>The Parties acknowledge that monetary damages may be insufficient to remedy any breach of this Agreement by the user, particularly with respect to Sections 2 and 3, and that Tavily.com shall be entitled to seek injunctive relief to prevent or remedy any breaches or threatened breaches. In the event of such a breach, Tavily.com is authorized to seek all equitable remedies available, without the need for posting bond or proving actual damages. The user hereby waives any argument that Tavily.com has an adequate remedy at law.</p>
-<h3>Force Majeure</h3>
-<p>Tavily.com shall not be held responsible for delays or non-performance of its obligations under this Agreement due to events beyond its reasonable control. Tavily.com commits to resuming performance promptly once the condition is resolved.</p>
-<h3>Independent Contractors</h3>
-<p>The relationship between Tavily.com and the user is that of independent contractors. This Agreement does not create a partnership, joint venture, employment, or agency relationship between them.</p>
-<h3>Notices</h3>
-<p>All notices under this Agreement must be in writing. Notices to Tavily.com should be sent to support@tavily.com. Tavily.com will send notices to users at the email address associated with their Tavily Search API account. Notices are deemed effective upon receipt, provided that the sending party can demonstrate that the notice was sent according to this section.</p>
-<h3>Amendments and Waivers</h3>
-<p>No changes to this Agreement are binding unless made in writing and signed by both parties. A waiver of any term or condition must also be in writing and signed by the party granting the waiver. Failure to exercise any right under this Agreement does not constitute a waiver of that right.</p>
-<h3>Severability</h3>
-<p>Should any provision of this Agreement be found unenforceable or invalid, such finding does not affect the remainder of the Agreement. The Parties will negotiate in good faith to replace any such provision with a valid one that reflects the original intent as closely as possible.</p>
-<h3>Governing Law and Jurisdiction</h3>
-<p>This Agreement is governed by the laws of the State of New York, excluding any conflict of laws principles. The United Nations Convention for the International Sale of Goods does not apply. Any disputes will be resolved exclusively in the federal or state courts located in New York, New York.</p>
-<h3>Assignment</h3>
-<p>The user may not assign this Agreement or any rights hereunder without the prior written consent of Tavily.com. Any unauthorized assignment is null and void. Tavily.com may assign this Agreement at its discretion.</p>
-<p>For any questions or notices, please contact us at <a href="mailto:support@tavily.com">support@tavily.com</a>.</p>
-<p><em>Last updated: 11.30.23</em></p></div></main></main><footer class="mt-20"><div class="custom-screen"><div class="mt-10 py-8 border-t border-gray-800 items-center justify-between sm:flex"><p class="text-gray-400 text-center">© 2024 Tavily Inc. All rights reserved.</p><div class="flex items-center justify-center gap-x-6 text-gray-500 mt-6 sm:mt-0"><a href="mailto:support@tavily.com" target="_blank" aria-label="github"><svg class="w-6 h-6 hover:text-gray-200 duration-150" fill="currentColor" viewbox="0 0 24 24"><path d="M22.288 21h-20.576c-.945 0-1.712-.767-1.712-1.712v-13.576c0-.945.767-1.712 1.712-1.712h20.576c.945 0 1.712.767 1.712 1.712v13.576c0 .945-.767 1.712-1.712 1.712zm-10.288-6.086l-9.342-6.483-.02 11.569h18.684v-11.569l-9.322 6.483zm8.869-9.914h-17.789l8.92 6.229s6.252-4.406 8.869-6.229z"></path></svg></a><a href="https://github.com/tavily-ai/tavily-python" target="_blank" aria-label="github"><svg class="w-6 h-6 hover:text-gray-200 duration-150" fill="currentColor" viewbox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg></a><a href="https://discord.gg/2pFkc83fRq" target="_blank" aria-label="discord"><svg class="w-6 h-6 hover:text-gray-200 duration-150" fill="currentColor" viewbox="0 0 24 24"><path d="M19.54 0c1.356 0 2.46 1.104 2.46 2.472v21.528l-2.58-2.28-1.452-1.344-1.536-1.428.636 2.22h-13.608c-1.356 0-2.46-1.104-2.46-2.472v-16.224c0-1.368 1.104-2.472 2.46-2.472h16.08zm-4.632 15.672c2.652-.084 3.672-1.824 3.672-1.824 0-3.864-1.728-6.996-1.728-6.996-1.728-1.296-3.372-1.26-3.372-1.26l-.168.192c2.04.624 2.988 1.524 2.988 1.524-1.248-.684-2.472-1.02-3.612-1.152-.864-.096-1.692-.072-2.424.024l-.204.024c-.42.036-1.44.192-2.724.756-.444.204-.708.348-.708.348s.996-.948 3.156-1.572l-.12-.144s-1.644-.036-3.372 1.26c0 0-1.728 3.132-1.728 6.996 0 0 1.008 1.74 3.66 1.824 0 0 .444-.54.804-.996-1.524-.456-2.1-1.416-2.1-1.416l.336.204.048.036.047.027.014.006.047.027c.3.168.6.3.876.408.492.192 1.08.384 1.764.516.9.168 1.956.228 3.108.012.564-.096 1.14-.264 1.74-.516.42-.156.888-.384 1.38-.708 0 0-.6.984-2.172 1.428.36.456.792.972.792.972zm-5.58-5.604c-.684 0-1.224.6-1.224 1.332 0 .732.552 1.332 1.224 1.332.684 0 1.224-.6 1.224-1.332.012-.732-.54-1.332-1.224-1.332zm4.38 0c-.684 0-1.224.6-1.224 1.332 0 .732.552 1.332 1.224 1.332.684 0 1.224-.6 1.224-1.332 0-.732-.54-1.332-1.224-1.332z"></path></svg>                        </a><a href="https://twitter.com/tavilyai" target="_blank" aria-label="twitter"><svg class="w-6 h-6 hover:text-gray-200 duration-150" fill="none" viewbox="0 0 48 48"><g clip-path="url(#clip0_17_80)"><path fill="currentColor" d="M15.1 43.5c18.11 0 28.017-15.006 28.017-28.016 0-.422-.01-.853-.029-1.275A19.998 19.998 0 0048 9.11c-1.795.798-3.7 1.32-5.652 1.546a9.9 9.9 0 004.33-5.445 19.794 19.794 0 01-6.251 2.39 9.86 9.86 0 00-16.788 8.979A27.97 27.97 0 013.346 6.299 9.859 9.859 0 006.393 19.44a9.86 9.86 0 01-4.462-1.228v.122a9.844 9.844 0 007.901 9.656 9.788 9.788 0 01-4.442.169 9.867 9.867 0 009.195 6.843A19.75 19.75 0 010 39.078 27.937 27.937 0 0015.1 43.5z"></path></g><defs><clippath id="clip0_17_80"><path fill="currentColor" d="M0 0h48v48H0z"></path></clippath></defs></svg></a><a href="https://www.linkedin.com/company/tavily" target="_blank" aria-label="linkedin"><svg class="w-6 h-6 hover:text-gray-200 duration-150" fill="none" viewbox="0 0 48 48"><g clip-path="url(#clip0_17_68)"><path fill="currentColor" d="M44.447 0H3.544C1.584 0 0 1.547 0 3.46V44.53C0 46.444 1.584 48 3.544 48h40.903C46.407 48 48 46.444 48 44.54V3.46C48 1.546 46.406 0 44.447 0zM14.24 40.903H7.116V17.991h7.125v22.912zM10.678 14.87a4.127 4.127 0 01-4.134-4.125 4.127 4.127 0 014.134-4.125 4.125 4.125 0 010 8.25zm30.225 26.034h-7.115V29.766c0-2.653-.047-6.075-3.704-6.075-3.703 0-4.265 2.896-4.265 5.887v11.325h-7.107V17.991h6.826v3.13h.093c.947-1.8 3.272-3.702 6.731-3.702 7.21 0 8.541 4.744 8.541 10.912v12.572z"></path></g><defs><clippath id="clip0_17_68"><path fill="currentColor" d="M0 0h48v48H0z"></path></clippath></defs></svg></a></div></div></div></footer></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{}},"page":"/policy","query":{},"buildId":"3CewsKP9Z5e9X948ULI5U","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script></body></html>
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description"
+        content="Say hello to Tavily, your AI researcher for rapid insights and comprehensive research.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon.ico">
+    <title>Tavily - API Agreement</title>
+    <meta name="next-head-count" content="5">
+    <link rel="preload" href="_next/static/css/172d592c3e8d4189.css" as="style">
+    <link rel="stylesheet" href="_next/static/css/172d592c3e8d4189.css" data-n-g=""><noscript data-n-css=""></noscript>
+    <script defer="" nomodule="" src="_next/static/chunks/polyfills-c67a75d1b6f99dc8.js"></script>
+    <script src="_next/static/chunks/webpack-59c5c889f52620d6.js" defer=""></script>
+    <script src="_next/static/chunks/framework-2c79e2a64abdb08b.js" defer=""></script>
+    <script src="_next/static/chunks/main-f11614d8aa7ee555.js" defer=""></script>
+    <script src="_next/static/chunks/pages/_app-10a98717eb22ad5e.js" defer=""></script>
+    <script src="_next/static/chunks/526-3a9abb49c05688c3.js" defer=""></script>
+    <script src="_next/static/chunks/pages/policy-e943a299a68ab694.js" defer=""></script>
+    <script src="_next/static/3CewsKP9Z5e9X948ULI5U/_buildManifest.js" defer=""></script>
+    <script src="_next/static/3CewsKP9Z5e9X948ULI5U/_ssgManifest.js" defer=""></script>
+</head>
+
+<body class="bg-gray-900">
+    <div id="__next">
+        <div>
+            <header class="fixed w-full z-50 top-0 left-0 right-0 bg-transparent transition-colors duration-300">
+                <div class="custom-screen md:hidden">
+                    <div class="md:hidden w-full">
+                        <div class="container flex mx-auto items-center justify-between md:block p-2">
+                            <div class=""><a class="flex nav-logo-text items-center text-4xl text-white"
+                                    href="index.htm"><img alt="Tavily Logo" src="_next/static/media/logo.b3d36071.svg"
+                                        width="44" height="8" decoding="async" data-nimg="1" loading="lazy"
+                                        style="color:transparent;transform:rotate(0deg);transition:transform 0.7s ease-in-out">
+                                    <div class="flex px-2 mt-1 nav-logo-text text-4xl  text-white">tavily</div>
+                                </a></div>
+                            <div class="flex items-center space-x-4"><a target="_blank" class="hidden text-white"
+                                    href="https://status.tavily.com">Operational<span
+                                        class="text-green-500 ml-2">●</span></a><button role="button"
+                                    aria-label="Open the menu" class="text-gray-400 hover:text-gray-50"><svg
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                                    </svg></button></div>
+                        </div>
+                    </div>
+                </div>
+                <nav class="md:text-lg md:static md:block transition-all hidden py-4">
+                    <div class="sun-nav custom-screen items-center md:justify-between md:flex">
+                        <div class="md:hidden w-full">
+                            <div class="container flex mx-auto items-center justify-between md:block p-2">
+                                <div class=""><a class="flex nav-logo-text items-center text-4xl text-white"
+                                        href="index.htm"><img alt="Tavily Logo"
+                                            src="_next/static/media/logo.b3d36071.svg" width="44" height="8"
+                                            decoding="async" data-nimg="1" loading="lazy"
+                                            style="color:transparent;transform:rotate(0deg);transition:transform 0.7s ease-in-out">
+                                        <div class="flex px-2 mt-1 nav-logo-text text-4xl  text-white">tavily</div>
+                                    </a></div>
+                                <div class="flex items-center space-x-4"><a target="_blank" class="hidden text-white"
+                                        href="https://status.tavily.com">Operational<span
+                                            class="text-green-500 ml-2">●</span></a><button role="button"
+                                        aria-label="Open the menu" class="text-gray-400 hover:text-gray-50"><svg
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+                                        </svg></button></div>
+                            </div>
+                        </div>
+                        <div class="basis-4/12 hidden md:block flex items-center text-4xl font-semi-bold text-white"><a
+                                class="flex items-center" href="index.htm">
+                                <div style="transform:rotate(0deg);transition:transform 0.7s ease-in-out"><img
+                                        alt="Tavily Logo" src="_next/static/media/logo.b3d36071.svg" width="44"
+                                        height="8" decoding="async" data-nimg="1" loading="lazy"
+                                        style="color:transparent"></div><span
+                                    class="ml-2 mt-2 nav-logo-text text-5xl">tavily</span>
+                            </a></div>
+                        <div
+                            class="basis-4/12 pb-4 md:pb-0 items-center md:mt-0 md:flex md:justify-center text-white hidden">
+                            <ul class="flex-1  justify-center items-center px-2 md:px-0 md:flex md:space-x-10">
+                                <li class="hover:text-gray-500mb-1"><a class="block" target=""
+                                        href="index.htm#api">API</a></li>
+                                <li class="hover:text-gray-500mb-1"><a class="block" target=""
+                                        href="index.htm#pricing">Pricing</a></li>
+                                <li class="hover:text-gray-500mb-1"><a class="block" target=""
+                                        href="index.htm#faqs">FAQ</a></li>
+                                <li class="hover:text-gray-500mb-1"><a class="block" target="_blank"
+                                        href="https://docs.tavily.com">Documentation</a></li>
+                                <li class="hover:text-gray-500mb-1"><a class="block" target="_blank"
+                                        href="https://community.tavily.com">Community</a></li>
+                                <li class="md:hidden"><a target="_blank" href="https://app.tavily.com">
+                                        <div class="flex items-center">Dashboard<span class="px-2"><svg
+                                                    stroke="currentColor" fill="currentColor" stroke-width="0"
+                                                    viewbox="0 0 512 512" focusable="false"
+                                                    class="chakra-icon css-1arui3b" height="1em" width="1em"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z">
+                                                    </path>
+                                                </svg></span></div>
+                                    </a></li>
+                            </ul>
+                        </div>
+                        <div class="basis-4/12 flex space-x-4 items-center justify-end md:ml-5"><a target="_blank"
+                                class="hidden md:block px-3 py-1 rounded-lg text-black bg-white hover:bg-gray-500 transition-all duration-300"
+                                href="https://app.tavily.com">Dashboard</a><a target="_blank"
+                                class="flex items-center hidden md:block text-white"
+                                href="https://status.tavily.com">Operational<span
+                                    class="text-green-500 ml-2">●</span></a></div>
+                    </div>
+                </nav>
+            </header>
+            <main>
+                <main class="w-full flex flex-col items-center px-4 mt-20">
+                    <div class="max-w-3xl w-full prose prose-headings:text-gray-300 text-gray-300">
+                        <h1>Tavily Search API Agreement</h1>
+                        <p>Greetings, and welcome to your journey with Tavily Technologies Inc. (&quot;Tavily.com,&quot;
+                            &quot;Tavily,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) and our online
+                            presence at www.tavily.com, which includes our Tavily Search API, related websites,
+                            networks, applications, mobile applications, and other offerings provided by us (together,
+                            the &quot;Tavily Service&quot;). This Tavily Search API Agreement constitutes a binding
+                            legal agreement between you (&quot;you,&quot; &quot;your&quot;) and Tavily regarding your
+                            use of the Tavily Service.</p>
+                        <h2>Please Review These Terms Thoroughly</h2>
+                        <p>BY SELECTING &quot;I AGREE,&quot; DOWNLOADING, INSTALLING, OR OTHERWISE ACCESSING OR
+                            UTILIZING THE TAVILY SERVICE, YOU ACKNOWLEDGE THAT YOU HAVE READ AND COMPREHENDED THESE
+                            TERMS AND CONDITIONS, INCLUDING TAVILY&#x27;S PRIVACY POLICY (COLLECTIVELY REFERRED TO AS
+                            &quot;TERMS&quot;), AND YOU CONSENT TO BE LEGALLY BOUND BY THEM AS A PRECONDITION OF YOUR
+                            USAGE OF THE TAVILY SERVICE. IF YOU ARE NOT QUALIFIED OR DO NOT CONSENT TO THESE TERMS, YOU
+                            ARE HEREBY DENIED PERMISSION TO UTILIZE THE TAVILY SERVICE. YOUR ENGAGEMENT WITH THE TAVILY
+                            SERVICE, AND TAVILY&#x27;S DELIVERY OF THE SERVICE TO YOU, SIGNIFIES A MUTUAL AGREEMENT TO
+                            ADHERE TO THESE TERMS.</p>
+                        <h2>Definitions</h2>
+                        <ol>
+                            <li>&quot;API&quot; refers to the Tavily Search API, including any API Documentation, API
+                                Materials, and other related resources provided to you by Tavily, specifically through
+                                the website and pages under the Tavily.com domain (collectively, the &quot;Tavily
+                                Website&quot;), along with any subsequent Updates.</li>
+                            <li>&quot;API Documentation&quot; denotes the collection of API instructions and guidelines
+                                that Tavily makes available to you periodically, notably via the Tavily Website,
+                                inclusive of any subsequent Updates.</li>
+                            <li>&quot;API Key&quot; signifies the security credentials Tavily issues to enable your
+                                access to the API.</li>
+                            <li>&quot;API Materials&quot; encompasses any data or information provided to you through
+                                the API or by any other authorized means by Tavily, including any replicated or
+                                derivative works thereof, and any Content.</li>
+                            <li>&quot;Applications&quot; implies any software or applications that you develop to
+                                interface with the API.</li>
+                            <li>&quot;Content&quot; includes any search results, images, data, third-party content, or
+                                other materials that Tavily makes accessible to you through the Tavily Service.</li>
+                            <li>&quot;Tavily Marks&quot; refers to Tavily&#x27;s proprietary trademarks, trade names,
+                                branding, or logos that are provided for use in connection with the API under this
+                                Agreement.</li>
+                            <li>&quot;Tavily Offering&quot; describes Tavily&#x27;s software as detailed on the Tavily
+                                Website.</li>
+                            <li>&quot;Services&quot; denotes the API services provided, which grant access to the
+                                Content, the Tavily Offering, and any API Materials and API Documentation.</li>
+                            <li>&quot;Updates&quot; includes any modifications, bug fixes, patches, or other error
+                                rectifications to the API that Tavily typically offers at no additional charge to all
+                                licensees of the API.</li>
+                            <li>&quot;Website&quot; refers to Tavily&#x27;s website located at www.tavily.com and any
+                                associated subdomains.</li>
+                        </ol>
+                        <h2>License</h2>
+                        <h3>License Grants</h3>
+                        <p>Subject to your adherence to the terms and conditions of this Agreement, including the timely
+                            payment of all applicable Fees, Tavily hereby grants you a limited, revocable,
+                            non-exclusive, non-transferable, non-sublicensable license for the duration of this
+                            Agreement to utilize the Tavily Search API Services for the following purposes: (i) to
+                            employ the API exclusively for internal development of Applications designed to interact and
+                            function with the Tavily.com offerings; (ii) to engage with the API; and (iii) with
+                            Tavily&#x27;s explicit prior consent, to exhibit certain Tavily Marks in accordance with any
+                            usage guidelines that Tavily may provide from time to time, strictly in relation to the use
+                            of the API and the Applications, and not in connection with the marketing, promotion,
+                            distribution, or sale of any other goods or services. The API Materials are permitted for
+                            use in responding to inquiries on your website, but not for training artificial intelligence
+                            models, and must not be retained for future use.</p>
+                        <h3>Use Restrictions</h3>
+                        <p>You are prohibited from using the Services, the API, or any Tavily Mark for any purpose
+                            outside the scope of the license granted in this Agreement. Except as explicitly outlined in
+                            this Agreement or as amended in writing by Tavily, you must not, and must not allow others
+                            to:</p>
+                        <ol>
+                            <li>Store the output from the API or any derivative works thereof (including API Materials
+                                and Content), in part or in entirety;</li>
+                            <li>Rent, lease, lend, sell, sublicense, assign, distribute, publish, transfer, or otherwise
+                                make the API accessible, in part or in entirety;</li>
+                            <li>Reverse engineer, disassemble, decompile, decode, adapt, or attempt to access or
+                                discover the source code of any part of the API;</li>
+                            <li>Circumvent or bypass any rate or service limits, including through the creation of
+                                multiple accounts;</li>
+                            <li>Remove any proprietary notices from the API;</li>
+                            <li>Utilize the API in any way that infringes upon, misappropriates, or violates any
+                                intellectual property right or other rights of any party, or that breaches any
+                                applicable law;</li>
+                            <li>Enter into any licensing agreement that conflicts with this Agreement;</li>
+                            <li>Use the API in a manner detrimental to Tavily, including its products, services,
+                                infrastructure, reputation, or goodwill;</li>
+                            <li>Integrate the API with unauthorized software, technology, services, or materials;</li>
+                            <li>Design or allow Applications to disrupt, override, or interfere with Tavily-implemented
+                                user communications, consent screens, settings, alerts, or similar functions;</li>
+                            <li>Use the API in Applications to mimic or attempt to supplant the user experience of
+                                Tavily.com offerings;</li>
+                            <li>Conceal or obscure your or the Applications&#x27; identity when seeking authorization to
+                                use the API;</li>
+                            <li>Copy, store, archive, cache, or create a database of the Content, in part or in
+                                entirety;</li>
+                            <li>Redistribute, resell, or sublicense the Content;</li>
+                            <li>Employ the Content in any machine learning or algorithmic activities;</li>
+                            <li>Use the Content to create, refine, assess, or enhance any services offered by you or
+                                third parties; or</li>
+                            <li>Upon the conclusion of this Agreement, retain or fail to eliminate all API Materials in
+                                your possession.</li>
+                        </ol>
+                        <h3>Enterprise Access</h3>
+                        <p>Tavily may alter these terms in writing for Customers providing Services to enterprise users
+                            (&quot;Enterprise Clients&quot;).</p>
+                        <h3>Reservation of Rights</h3>
+                        <p>Tavily reserves all rights not explicitly granted to you herein, including the right to
+                            modify rate limits, the format and structure of request responses, and the extent of Content
+                            provided in the responses. Apart from the specific rights and licenses granted under this
+                            Agreement, nothing herein bestows upon you or any third party, by implication, waiver,
+                            estoppel, or otherwise, any intellectual property rights or other right, title, or interest
+                            in or to the Tavily Search API.</p>
+                        <h3>Pricing Changes</h3>
+                        <p>Tavily reserves the right to modify pricing for the Tavily Search API Services with a 60-day
+                            notice to you. Any changes to the pricing will be communicated via the email address
+                            provided by you or through an announcement on the Tavily.com website.</p>
+                        <h2>Your Responsibilities</h2>
+                        <p>As a user of the Tavily Search API, you bear full responsibility and liability for all
+                            activities conducted through your access to the API, whether such activities are authorized
+                            by you or are in breach of this Agreement. This includes the conduct of any end users
+                            interacting with your Application and their use of the API. Any violation of this Agreement
+                            by an end user shall be considered a violation by you. You are obliged to inform your end
+                            users of the terms of this Agreement that are relevant to their use of the API and to ensure
+                            their compliance with these terms.</p>
+                        <p>To access and use the Tavily Search API, you must secure an API Key from tavily.com. This API
+                            Key is for your use only and must not be shared with third parties. You are required to
+                            safeguard your API Key and any associated login credentials. The API Key is your exclusive
+                            credential for API access, and Tavily reserves the right to revoke it at any time. Should
+                            there be any unauthorized use of your API Key, you must promptly notify Tavily via
+                            support@tavily.com as outlined in the Notice provision of this Agreement.</p>
+                        <p>Your use of the Tavily Search API must adhere to all applicable laws, regulations, and this
+                            Agreement&#x27;s terms. Additionally, you must follow any guidelines or requirements posted
+                            by Tavily on the tavily.com website, in documentation, or communicated in other ways. You
+                            are tasked with monitoring Application usage to prevent and address any illegal or
+                            inappropriate activities, including taking action against users who violate these terms. It
+                            is your responsibility to provide necessary privacy notices and obtain consents from end
+                            users as required by law for their use of the Application.</p>
+                        <p>The Tavily Search API must not be used to support, promote, or engage in illegal activities,
+                            including but not limited to the distribution of malware, counterfeit goods, embargoed
+                            items, spam emails, pyramid schemes, hate content, hacking tools, or any products or
+                            services that are illegal or unethical.</p>
+                        <p>You are expected to protect the API and any related materials (including all copies thereof)
+                            from infringement, misappropriation, or unauthorized access using commercially reasonable
+                            efforts. Should you become aware of any infringement of intellectual property rights related
+                            to the API, you are to notify Tavily immediately and cooperate fully in any protective legal
+                            actions.</p>
+                        <p>In any product that incorporates the Tavily Search API, you may use the phrase “POWERED BY
+                            Tavily” to acknowledge the underlying technology. Tavily reserves the right to oversee your
+                            use of the Tavily Marks on your site, which may include requiring changes to the display of
+                            these marks or revoking your permission to use them, in accordance with Tavily&#x27;s
+                            guidelines. Your use of the Tavily Marks does not confer any ownership or rights to you, and
+                            all associated goodwill will benefit Tavily. You must not imply a partnership, sponsorship,
+                            or endorsement by Tavily without express written consent from Tavily, which may be given or
+                            withheld at Tavily&#x27;s discretion. Unless otherwise agreed, Tavily may use your company
+                            or product name, screenshots, or other depictions of your Application for marketing or
+                            demonstrating the API.</p>
+                        <h2>Updates</h2>
+                        <p>Throughout the duration of this Agreement, Tavily may supply modifications or enhancements to
+                            the Tavily Search API (collectively, &quot;Modifications&quot;), which shall be included
+                            under the API&#x27;s terms and conditions. You acknowledge that Tavily may mandate the
+                            adoption of the most current version of the Tavily Search API. Such Modifications may change
+                            the way Applications interact with Tavily&#x27;s offerings. It is your responsibility to
+                            implement any necessary adjustments to the Applications for continued compatibility
+                            following such Modifications, at your own expense. Tavily will strive to provide you with
+                            reasonable advance notice of significant changes or Modifications. Your continued
+                            utilization of the Tavily Search API post-Modification signifies your acceptance of the
+                            Modification.</p>
+                        <h2>Pricing and Payment Terms</h2>
+                        <h3>Pricing Structure and Subscription Terms</h3>
+                        <p>You agree to compensate Tavily for services rendered as per the pricing (&quot;Pricing&quot;)
+                            listed on tavily.com. Pricing is payable upfront for the specified subscription period.
+                            Certain Pricing plans may include a quota of API call credits. Payments can be processed
+                            through the electronic methods available on tavily.com. API call credits acquired but not
+                            utilized within the subscription period may be retained and used by you for up to one year
+                            following the agreement&#x27;s termination. These credits are neither transferable nor
+                            refundable. Post-termination use of credits is governed by the terms of this Agreement.</p>
+                        <p>Tavily reserves the right to modify its Pricing with a notice period of 60 days. All
+                            transactions, including deposits and purchases, are final and non-refundable. Payments must
+                            be made in U.S. dollars by the due date, via methods specified by Tavily. Except as
+                            explicitly stated in this Agreement or as mandated by law, all payments are non-refundable.
+                            Failure to remit payment on time may result in Tavily imposing an interest charge on the
+                            overdue amount at a monthly rate of 1.5%, calculated daily and compounded monthly, or the
+                            maximum rate allowable by law, whichever is lower. You will also be responsible for
+                            reimbursing Tavily for all expenses incurred in collecting overdue payments or interest,
+                            including legal fees, court costs, and collection agency fees. Tavily may, at its
+                            discretion, restrict or suspend your access to the Tavily Search API, its offerings,
+                            content, and any other services until all arrears and interest are settled. Such suspension
+                            or restriction does not obligate Tavily to you or any third party. Alternatively, Tavily may
+                            exercise any other rights under this Agreement, including termination.</p>
+                        <h3>Tax Responsibilities</h3>
+                        <p>All Pricing and other amounts due under this Agreement do not include taxes or similar
+                            levies. You are liable for all sales, use, excise taxes, and any other similar taxes,
+                            duties, and charges imposed by any federal, state, or local governmental entity on the
+                            amounts payable under this Agreement, excluding taxes levied on Tavily&#x27;s income. Should
+                            you be required to withhold taxes on payments to Tavily, you may deduct such taxes from the
+                            owed amount and remit them to the appropriate tax authority. You must promptly obtain and
+                            provide Tavily with an official receipt for such withholdings and any other documentation
+                            Tavily reasonably requests to claim a foreign tax credit or refund. It is your duty to
+                            ensure that any withheld taxes are minimized as much as possible under applicable law.</p>
+                        <h2>Collection and Utilization of Information</h2>
+                        <h3>Data Gathering</h3>
+                        <p>Tavily Search API may gather certain data through the API or the Tavily.com offerings about
+                            you or your representatives, including employees, contractors, or agents. By utilizing,
+                            accessing, and submitting information to or through the API or Tavily.com offerings, you
+                            grant consent for all actions taken by Tavily with respect to your information in accordance
+                            with the latest version of Tavily&#x27;s privacy policy and data protection standards, which
+                            can be found at <a href="privacy.html">tavily.com/privacy</a>.</p>
+                        <h3>Service Availability</h3>
+                        <p>Tavily Search API endeavors to maintain service availability 24/7. However, you acknowledge
+                            that there may be occasions when access is disrupted due to technical issues or unforeseen
+                            circumstances beyond our control. Tavily shall not be liable for disruptions caused by
+                            network or power failures. We reserve the right to temporarily interrupt, suspend, or modify
+                            access to the services without prior notice. Tavily&#x27;s services are subject to
+                            continuous improvement and may therefore change over time at our discretion.</p>
+                        <h2>Proprietary Rights and Confidentiality</h2>
+                        <h3>Intellectual Property</h3>
+                        <p>You recognize that Tavily and its licensors retain all ownership, including intellectual
+                            property rights, in the Tavily Search API, associated documentation, materials, and any
+                            content, as well as Tavily&#x27;s offerings and trademarks.</p>
+                        <h3>Confidentiality</h3>
+                        <p>The terms of this Agreement, including but not limited to pricing, API materials,
+                            documentation, and any related technology, are Tavily&#x27;s confidential information. You
+                            are prohibited from disclosing or using Tavily&#x27;s confidential information except as
+                            explicitly permitted by this Agreement.</p>
+                        <h3>Feedback Provision</h3>
+                        <p>Any feedback, suggestions, ideas, or other inputs provided by you or your representatives
+                            regarding the Tavily Search API, Tavily.com offerings, or trademarks (&quot;Feedback&quot;)
+                            will be considered non-confidential. You hereby assign to Tavily all rights in the Feedback
+                            without any obligation for attribution or compensation. Tavily is free to use this Feedback
+                            for any purpose and is not obligated to implement any suggested changes.</p>
+                        <h3>Warranty Disclaimer</h3>
+                        <p>You assume all risks associated with the use of our Services. Tavily provides the Services on
+                            an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis, with all faults and disclaims all
+                            warranties, whether express, implied, or statutory. Tavily specifically disclaims any
+                            implied warranties of merchantability, fitness for a particular purpose, and
+                            non-infringement. Tavily does not guarantee that the API, content, or services will meet
+                            your requirements, be uninterrupted, error-free, or free from harmful components, nor does
+                            it assume responsibility for the accuracy or completeness of any data.</p>
+                        <h3>Indemnification</h3>
+                        <p>You agree to indemnify and hold harmless Tavily and its affiliates against any claims or
+                            liabilities arising from your use of the API, Tavily offerings, content, or trademarks, or
+                            any breach of this Agreement. Should Tavily require indemnification, we will notify you
+                            promptly. Tavily reserves the right to assume control of the defense with counsel of our
+                            choice, and you may not settle any claim without Tavily&#x27;s written consent.</p>
+                        <h3>Liability Limitation</h3>
+                        <p>Under no circumstances will Tavily be liable for any indirect, special, incidental, or
+                            consequential damages arising from the use of the API or services. Tavily&#x27;s total
+                            liability will not exceed the fees you have paid to Tavily in the 12 months preceding the
+                            claim. Any claims must be brought within three months of the event giving rise to such
+                            claim.</p>
+                        <h2>Duration and Cessation</h2>
+                        <h3>Duration</h3>
+                        <p>The duration of this Agreement commences once the Licensee acknowledges acceptance and
+                            remains in effect until terminated as provided herein.</p>
+                        <h3>Suspension</h3>
+                        <p>Tavily.com reserves the right to immediately suspend access to the Tavily Search API,
+                            associated content, Tavily.com offerings, or other services without prior notice if:</p>
+                        <ol>
+                            <li>Tavily.com reasonably concludes that:<!-- -->
+                                <ul>
+                                    <li>The Licensee&#x27;s usage may cause harm to, or disproportionately burden,
+                                        Tavily.com&#x27;s systems;</li>
+                                    <li>The Licensee has breached any provision of this Agreement;</li>
+                                    <li>The Licensee&#x27;s actions create potential legal jeopardy for Tavily.com, at
+                                        Tavily.com&#x27;s sole discretion;</li>
+                                    <li>The continued provision of the API or services is deemed non-viable
+                                        commercially, at Tavily.com&#x27;s sole discretion;</li>
+                                </ul>
+                            </li>
+                            <li>There is an extended period of inactivity by the Licensee;</li>
+                            <li>Tavily.com is compelled by a court order or governmental authority;</li>
+                            <li>The Licensee fails to fulfill payment obligations for the services.</li>
+                            <li>Tavily.com has given a 60 day notice of its intent to discontinue the services.</li>
+                        </ol>
+                        <p>Tavily.com is not liable for any damage or loss resulting from such suspension under the
+                            circumstances described above.</p>
+                        <h3>Termination</h3>
+                        <p>Subscriptions will persist until terminated. The Licensee may terminate this Agreement at any
+                            time by notifying Tavily.com, such as through a request to cancel the subscription via
+                            account settings. Tavily.com retains the authority to terminate any subscription at any
+                            time, with or without notice to the Licensee, for any reason or no reason, at its sole
+                            discretion.</p>
+                        <h3>Consequences of Expiration or Termination</h3>
+                        <p>Upon the expiration or termination of this Agreement for any reason, all licenses and rights
+                            granted to the Licensee under this Agreement will terminate. The Licensee must discontinue
+                            use, destroy, and permanently delete all copies of the Tavily Search API and any Tavily.com
+                            trademarks from all devices and systems under their direct or indirect control. All pending
+                            payments, if applicable, will immediately become due and payable.</p>
+                        <h3>Continuation</h3>
+                        <p>Provisions that, by their nature, should remain in effect beyond the termination or
+                            expiration of this Agreement, including but not limited to Sections regarding
+                            indemnification, warranty disclaimers, and limitations of liability, will continue to be
+                            enforceable post-termination.</p>
+                        <h2>Miscellaneous</h2>
+                        <h3>Entire Agreement</h3>
+                        <p>This Agreement, along with any documents referenced herein and incorporated by reference,
+                            represents the complete and exclusive statement of the agreement between the Parties
+                            regarding the Tavily Search API, and supersedes all prior negotiations, agreements, and
+                            understandings, both oral and written. In the case of any discrepancies between the main
+                            body of this Agreement and any incorporated documents, the provisions of this Agreement
+                            shall take precedence.</p>
+                        <h3>Remedies for Breach</h3>
+                        <p>The Parties acknowledge that monetary damages may be insufficient to remedy any breach of
+                            this Agreement by the user, particularly with respect to Sections 2 and 3, and that
+                            Tavily.com shall be entitled to seek injunctive relief to prevent or remedy any breaches or
+                            threatened breaches. In the event of such a breach, Tavily.com is authorized to seek all
+                            equitable remedies available, without the need for posting bond or proving actual damages.
+                            The user hereby waives any argument that Tavily.com has an adequate remedy at law.</p>
+                        <h3>Force Majeure</h3>
+                        <p>Tavily.com shall not be held responsible for delays or non-performance of its obligations
+                            under this Agreement due to events beyond its reasonable control. Tavily.com commits to
+                            resuming performance promptly once the condition is resolved.</p>
+                        <h3>Independent Contractors</h3>
+                        <p>The relationship between Tavily.com and the user is that of independent contractors. This
+                            Agreement does not create a partnership, joint venture, employment, or agency relationship
+                            between them.</p>
+                        <h3>Notices</h3>
+                        <p>All notices under this Agreement must be in writing. Notices to Tavily.com should be sent to
+                            support@tavily.com. Tavily.com will send notices to users at the email address associated
+                            with their Tavily Search API account. Notices are deemed effective upon receipt, provided
+                            that the sending party can demonstrate that the notice was sent according to this section.
+                        </p>
+                        <h3>Amendments and Waivers</h3>
+                        <p>No changes to this Agreement are binding unless made in writing and signed by both parties. A
+                            waiver of any term or condition must also be in writing and signed by the party granting the
+                            waiver. Failure to exercise any right under this Agreement does not constitute a waiver of
+                            that right.</p>
+                        <h3>Severability</h3>
+                        <p>Should any provision of this Agreement be found unenforceable or invalid, such finding does
+                            not affect the remainder of the Agreement. The Parties will negotiate in good faith to
+                            replace any such provision with a valid one that reflects the original intent as closely as
+                            possible.</p>
+                        <h3>Governing Law and Jurisdiction</h3>
+                        <p>This Agreement is governed by the laws of the State of New York, excluding any conflict of
+                            laws principles. The United Nations Convention for the International Sale of Goods does not
+                            apply. Any disputes will be resolved exclusively in the federal or state courts located in
+                            New York, New York.</p>
+                        <h3>Assignment</h3>
+                        <p>The user may not assign this Agreement or any rights hereunder without the prior written
+                            consent of Tavily.com. Any unauthorized assignment is null and void. Tavily.com may assign
+                            this Agreement at its discretion.</p>
+                        <p>For any questions or notices, please contact us at <a
+                                href="mailto:support@tavily.com">support@tavily.com</a>.</p>
+                        <p><em>Last updated: 11.30.23</em></p>
+                    </div>
+                </main>
+            </main>
+            <footer class="mt-20">
+                <div class="custom-screen">
+                    <div class="mt-10 py-8 border-t border-gray-800 items-center justify-between sm:flex">
+                        <p class="text-gray-400 text-center">© 2024 Tavily Inc. All rights reserved.</p>
+                        <div class="flex items-center justify-center gap-x-6 text-gray-500 mt-6 sm:mt-0"><a
+                                href="mailto:support@tavily.com" target="_blank" aria-label="github"><svg
+                                    class="w-6 h-6 hover:text-gray-200 duration-150" fill="currentColor"
+                                    viewbox="0 0 24 24">
+                                    <path
+                                        d="M22.288 21h-20.576c-.945 0-1.712-.767-1.712-1.712v-13.576c0-.945.767-1.712 1.712-1.712h20.576c.945 0 1.712.767 1.712 1.712v13.576c0 .945-.767 1.712-1.712 1.712zm-10.288-6.086l-9.342-6.483-.02 11.569h18.684v-11.569l-9.322 6.483zm8.869-9.914h-17.789l8.92 6.229s6.252-4.406 8.869-6.229z">
+                                    </path>
+                                </svg></a><a href="https://github.com/tavily-ai/tavily-python" target="_blank"
+                                aria-label="github"><svg class="w-6 h-6 hover:text-gray-200 duration-150"
+                                    fill="currentColor" viewbox="0 0 24 24">
+                                    <path
+                                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z">
+                                    </path>
+                                </svg></a><a href="https://discord.gg/2pFkc83fRq" target="_blank"
+                                aria-label="discord"><svg class="w-6 h-6 hover:text-gray-200 duration-150"
+                                    fill="currentColor" viewbox="0 0 24 24">
+                                    <path
+                                        d="M19.54 0c1.356 0 2.46 1.104 2.46 2.472v21.528l-2.58-2.28-1.452-1.344-1.536-1.428.636 2.22h-13.608c-1.356 0-2.46-1.104-2.46-2.472v-16.224c0-1.368 1.104-2.472 2.46-2.472h16.08zm-4.632 15.672c2.652-.084 3.672-1.824 3.672-1.824 0-3.864-1.728-6.996-1.728-6.996-1.728-1.296-3.372-1.26-3.372-1.26l-.168.192c2.04.624 2.988 1.524 2.988 1.524-1.248-.684-2.472-1.02-3.612-1.152-.864-.096-1.692-.072-2.424.024l-.204.024c-.42.036-1.44.192-2.724.756-.444.204-.708.348-.708.348s.996-.948 3.156-1.572l-.12-.144s-1.644-.036-3.372 1.26c0 0-1.728 3.132-1.728 6.996 0 0 1.008 1.74 3.66 1.824 0 0 .444-.54.804-.996-1.524-.456-2.1-1.416-2.1-1.416l.336.204.048.036.047.027.014.006.047.027c.3.168.6.3.876.408.492.192 1.08.384 1.764.516.9.168 1.956.228 3.108.012.564-.096 1.14-.264 1.74-.516.42-.156.888-.384 1.38-.708 0 0-.6.984-2.172 1.428.36.456.792.972.792.972zm-5.58-5.604c-.684 0-1.224.6-1.224 1.332 0 .732.552 1.332 1.224 1.332.684 0 1.224-.6 1.224-1.332.012-.732-.54-1.332-1.224-1.332zm4.38 0c-.684 0-1.224.6-1.224 1.332 0 .732.552 1.332 1.224 1.332.684 0 1.224-.6 1.224-1.332 0-.732-.54-1.332-1.224-1.332z">
+                                    </path>
+                                </svg> </a><a href="https://twitter.com/tavilyai" target="_blank"
+                                aria-label="twitter"><svg class="w-6 h-6 hover:text-gray-200 duration-150" fill="none"
+                                    viewbox="0 0 48 48">
+                                    <g clip-path="url(#clip0_17_80)">
+                                        <path fill="currentColor"
+                                            d="M15.1 43.5c18.11 0 28.017-15.006 28.017-28.016 0-.422-.01-.853-.029-1.275A19.998 19.998 0 0048 9.11c-1.795.798-3.7 1.32-5.652 1.546a9.9 9.9 0 004.33-5.445 19.794 19.794 0 01-6.251 2.39 9.86 9.86 0 00-16.788 8.979A27.97 27.97 0 013.346 6.299 9.859 9.859 0 006.393 19.44a9.86 9.86 0 01-4.462-1.228v.122a9.844 9.844 0 007.901 9.656 9.788 9.788 0 01-4.442.169 9.867 9.867 0 009.195 6.843A19.75 19.75 0 010 39.078 27.937 27.937 0 0015.1 43.5z">
+                                        </path>
+                                    </g>
+                                    <defs>
+                                        <clippath id="clip0_17_80">
+                                            <path fill="currentColor" d="M0 0h48v48H0z"></path>
+                                        </clippath>
+                                    </defs>
+                                </svg></a><a href="https://www.linkedin.com/company/tavily" target="_blank"
+                                aria-label="linkedin"><svg class="w-6 h-6 hover:text-gray-200 duration-150" fill="none"
+                                    viewbox="0 0 48 48">
+                                    <g clip-path="url(#clip0_17_68)">
+                                        <path fill="currentColor"
+                                            d="M44.447 0H3.544C1.584 0 0 1.547 0 3.46V44.53C0 46.444 1.584 48 3.544 48h40.903C46.407 48 48 46.444 48 44.54V3.46C48 1.546 46.406 0 44.447 0zM14.24 40.903H7.116V17.991h7.125v22.912zM10.678 14.87a4.127 4.127 0 01-4.134-4.125 4.127 4.127 0 014.134-4.125 4.125 4.125 0 010 8.25zm30.225 26.034h-7.115V29.766c0-2.653-.047-6.075-3.704-6.075-3.703 0-4.265 2.896-4.265 5.887v11.325h-7.107V17.991h6.826v3.13h.093c.947-1.8 3.272-3.702 6.731-3.702 7.21 0 8.541 4.744 8.541 10.912v12.572z">
+                                        </path>
+                                    </g>
+                                    <defs>
+                                        <clippath id="clip0_17_68">
+                                            <path fill="currentColor" d="M0 0h48v48H0z"></path>
+                                        </clippath>
+                                    </defs>
+                                </svg></a></div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script id="__NEXT_DATA__"
+        type="application/json">{"props":{"pageProps":{}},"page":"/policy","query":{},"buildId":"3CewsKP9Z5e9X948ULI5U","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script>
+</body>
+
+</html>

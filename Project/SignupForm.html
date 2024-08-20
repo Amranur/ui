@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .password-strength-indicator {
+      position: absolute;
+      right: 1rem;
+      top: 1.5rem;
+    }
+    .text-success { color: green; }
+    .text-danger { color: red; }
+    .icon { width: 1.5rem; height: 1.5rem; }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Modal container -->
+  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4" id="modal">
+    <div class="relative bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+      <h1 class="text-2xl font-bold text-center mb-2">Create your account</h1>
+      <p class="text-center text-gray-600 mb-6">Welcome! Please fill in the details to get started.</p>
+
+      <div class="flex space-x-4 mb-4">
+        <!-- GitHub Sign-Up Button -->
+        <a href="http://127.0.0.1:8000/auth/github" class="flex-1 flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12l-4.5 4.5 1.06 1.06L12 14.12l2.94 2.94L16 16.5 12 12z"/>
+          </svg>
+          GitHub
+        </a>
+        <!-- Google Sign-Up Button -->
+        <a href="http://127.0.0.1:8000/auth/google" class="flex-1 flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 12l-4.5 4.5 1.06 1.06L12 14.12l2.94 2.94L16 16.5 12 12z"/>
+          </svg>
+          Google
+        </a>
+      </div>
+
+      <div class="relative mb-4">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-gray-300"></div>
+        </div>
+        <div class="relative flex justify-center text-sm">
+          <span class="px-2 bg-white text-gray-500">or</span>
+        </div>
+      </div>
+
+      <form id="sign-up-form">
+        <div class="mb-4 flex space-x-4">
+          <div class="flex-1">
+            <label for="firstName" class="block text-sm font-medium text-gray-700">First name</label>
+            <input
+              type="text"
+              id="firstName"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+              placeholder="First name"
+            />
+          </div>
+          <div class="flex-1">
+            <label for="lastName" class="block text-sm font-medium text-gray-700">Last name</label>
+            <input
+              type="text"
+              id="lastName"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+              placeholder="Last name"
+            />
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+          <input
+            type="email"
+            id="email"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+            placeholder="Enter your email"
+          />
+        </div>
+
+        <div class="mb-4 relative">
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+          <input
+            type="password"
+            id="password"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+            placeholder="Enter your password"
+          />
+          <!-- Password strength indicator -->
+          <div id="password-strength-indicator" class="password-strength-indicator"></div>
+        </div>
+
+        <button
+          type="submit"
+          id="submit-btn"
+          class="w-full py-2 px-4 rounded-md transition duration-300 bg-[#118387] text-white hover:bg-purple-700"
+        >
+          Continue →
+        </button>
+      </form>
+
+      <div class="mt-6 text-center text-sm">
+        <span class="text-gray-600">Already have an account? </span>
+        <button
+          id="sign-in-btn"
+          class="text-[#118387] hover:text-purple-500 font-medium underline"
+          onclick="window.location.href='LoginForm.html'"
+        >
+          Sign in
+        </button>
+      </div>
+
+      <button
+        id="close-btn"
+        class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl font-bold"
+      >
+        &times;
+      </button>
+    </div>
+  </div>
+
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('sign-up-form');
+  const firstNameInput = document.getElementById('firstName');
+  const lastNameInput = document.getElementById('lastName');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const submitBtn = document.getElementById('submit-btn');
+  const passwordStrengthIndicator = document.getElementById('password-strength-indicator');
+  const closeBtn = document.getElementById('close-btn');
+  const signInBtn = document.getElementById('sign-in-btn');
+
+  const checkPasswordStrength = (password) => {
+    const strongPasswordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+    if (strongPasswordPattern.test(password)) {
+      passwordStrengthIndicator.innerHTML = '<span class="icon check-icon"></span>';
+      passwordStrengthIndicator.className = 'password-strength-indicator text-success';
+    } else {
+      passwordStrengthIndicator.innerHTML = '<span class="icon times-icon"></span>';
+      passwordStrengthIndicator.className = 'password-strength-indicator text-danger';
+    }
+  };
+
+  passwordInput.addEventListener('input', (e) => {
+    const password = e.target.value;
+    checkPasswordStrength(password);
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const firstName = firstNameInput.value;
+    const lastName = lastNameInput.value;
+    const email = emailInput.value;
+    const password = passwordInput.value;
+
+    if (firstName && lastName && email && password) {
+      const data = { name: `${firstName} ${lastName}`, email, password, city: "" }; // Update as needed
+
+      try {
+        const response = await fetch('http://127.0.0.0:8000/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          const responseData = await response.json();
+
+          if (responseData && responseData.message) {
+
+            console.log('Success:', responseData);
+            window.location.href = 'LoginForm.html';
+            // Handle successful registration (e.g., redirect or show a message)
+            // If you are expecting a token, make sure to adjust your FastAPI endpoint and frontend accordingly
+          } else {
+            console.error('Message is missing in the response');
+          }
+        } else {
+          console.error('Error:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Network error:', error);
+      }
+    }
+  });
+
+  closeBtn.addEventListener('click', () => {
+    window.location.href = 'index.htm';
+    document.getElementById('modal').style.display = 'none';
+  });
+
+  signInBtn.addEventListener('click', () => {
+    // Switch to sign-in logic here
+  });
+});
+  </script>
+
+</body>
+</html>

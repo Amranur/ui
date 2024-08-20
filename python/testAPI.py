@@ -51,7 +51,7 @@ if __name__ == "__main__":
     results = search.results(query, num_results=10, engines=[])
     all_cleaned_content = []
 
-    for result in results[:10]:
+    for result in results[:5]:
         url = result['link']
         print(f"Fetching {url}:")
         

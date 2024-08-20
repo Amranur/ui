@@ -15,11 +15,22 @@ from langchain_community.utilities import SearxSearchWrapper
 from langchain_community.document_loaders import WebBaseLoader
 from groq import Groq
 from fastapi.security import OAuth2PasswordBearer
-
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, EmailStr
 
 
 # Initialize FastAPI
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins, or specify a list of allowed origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 
 # Database setup
 DATABASE_URL = "sqlite:///./search_api.db"
@@ -38,11 +49,14 @@ class User(Base):
 
 class APIKey(Base):
     __tablename__ = "api_keys"
+    
     key = Column(String, primary_key=True, index=True)
+    name = Column(String, nullable=False)  # Add the name field
     created_at = Column(DateTime, default=datetime.utcnow)
     status = Column(Boolean, default=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship("User")
+
 
 class RequestLog(Base):
     __tablename__ = "request_logs"
@@ -81,10 +95,11 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     expire = datetime.utcnow() + expires_delta if expires_delta else datetime.utcnow() + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return "sobjanta-" +encoded_jwt
+    return encoded_jwt
+    #"sobjanta-" +
 
 # Define OAuth2 scheme
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(status_code=401, detail="Could not validate credentials")
@@ -101,33 +116,65 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         raise credentials_exception
 
 
+
+class UserCreateRequest(BaseModel):
+    name: str
+    email: str
+    password: str
+    city: str
+
 # User registration
 @app.post("/register")
-def register_user(name: str, email: str, password: str, city: str, db: Session = Depends(get_db)):
-    hashed_password = get_password_hash(password)
-    user = User(name=name, email=email, city=city, hashed_password=hashed_password)
+def register_user(data: UserCreateRequest, db: Session = Depends(get_db)):
+    hashed_password = get_password_hash(data.password)
+    user = User(
+        name=data.name,
+        email=data.email,
+        city=data.city,
+        hashed_password=hashed_password
+    )
     db.add(user)
     db.commit()
     db.refresh(user)
     return {"message": "User registered successfully"}
 
 # User login and token generation
+
+# @app.post("/login")
+# def login_user(email: str, password: str, db: Session = Depends(get_db)):
+#     user = db.query(User).filter(User.email == email).first()
+#     if not user or not verify_password(password, user.hashed_password):
+#         raise HTTPException(status_code=400, detail="Invalid credentials")
+#     access_token = create_access_token(data={"sub": str(user.id)}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+#     return {"access_token": access_token, "token_type": "sobjanta"}
+
+# Login endpoint for obtaining a token
+
 @app.post("/login")
-def login_user(email: str, password: str, db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.email == email).first()
-    if not user or not verify_password(password, user.hashed_password):
+def login_user(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == form_data.username).first()
+    if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=400, detail="Invalid credentials")
     access_token = create_access_token(data={"sub": str(user.id)}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-    return {"access_token": access_token, "token_type": "sobjanta"}
+    return {"access_token": access_token, "token_type": "bearer"}
 
 # API Key generation
+
+class APIKeyCreateRequest(BaseModel):
+    name: str
+
 @app.post("/generate-api-key")
-def generate_api_key(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+def generate_api_key(
+    api_key_data: APIKeyCreateRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
     key = str(uuid.uuid4())
-    db_key = APIKey(key=key, user_id=current_user.id)
+    db_key = APIKey(key=key, name=api_key_data.name, user_id=current_user.id)
     db.add(db_key)
     db.commit()
-    return {"api_key": key, "status": "active"}
+    db.refresh(db_key)
+    return {"api_key": db_key.key, "status": "active", "name": db_key.name}
 
 # Disable an API key
 @app.post("/disable-api-key")
@@ -181,7 +228,7 @@ def search_searxng(query: str, api_key: str, db: Session = Depends(get_db)):
 @app.get("/api-keys")
 def get_api_keys(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     keys = db.query(APIKey).filter(APIKey.user_id == current_user.id).all()
-    return {"api_keys": [{"key": key.key, "created_at": key.created_at, "status": "active" if key.status else "disabled"} for key in keys]}
+    return {"api_keys": [{"key": key.key, "name": key.name,"created_at": key.created_at, "status": "active" if key.status else "disabled"} for key in keys]}
 
 @app.get("/api-keys-all")
 def get_api_keys(db: Session = Depends(get_db)):
@@ -233,4 +280,4 @@ def summarize_content(content: str) -> str:
 
 # Run the application
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    uvicorn.run(app, host="127.0.0.1", port=8000)

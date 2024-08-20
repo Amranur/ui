@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Additional styles for better visuals */
+    .api-key {
+      word-break: break-all;
+    }
+
+    /* Alert styling */
+    .alert, .modal {
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 20px;
+      background-color: #38a169;
+      color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+    .modal {
+      background-color: white;
+      color: black;
+      width: 300px;
+      display: none;
+    }
+    .alert.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+    <h2 class="text-xl font-semibold mb-4">API Keys</h2>
+    <p class="text-gray-700 mb-4">
+      The key is used to authenticate your requests to the <a href="#" class="text-blue-500 hover:underline">Research API</a>. To learn more, see the <a href="#" class="text-blue-500 hover:underline">documentation page</a>.
+    </p>
+    
+    <!-- API Keys Table -->
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg mb-4">
+      <thead>
+        <tr>
+          <th class="px-4 py-2 border-b text-left">NAME</th>
+          <th class="px-4 py-2 border-b text-left">KEY</th>
+        </tr>
+      </thead>
+      <tbody id="api-keys-table-body">
+        <!-- API keys will be dynamically inserted here -->
+      </tbody>
+    </table>
+    
+    <button id="create-key-btn" class="mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Create Key</button>
+  </div>
+
+  <!-- API Key Alert -->
+  <div id="api-key-alert" class="alert hidden">
+    <p id="api-key-alert-text"></p>
+    <button id="api-key-alert-close" class="mt-2 px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800">Close</button>
+  </div>
+
+  <!-- API Key Name Modal -->
+  <div id="api-key-name-modal" class="modal">
+    <h3 class="text-lg font-semibold mb-4">Enter API Key Name</h3>
+    <input id="api-key-name-input" type="text" class="w-full px-3 py-2 border rounded-lg mb-4" placeholder="Enter a name for your API key">
+    <div class="flex justify-end">
+      <button id="api-key-name-cancel" class="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 mr-2">Cancel</button>
+      <button id="api-key-name-submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Create Key</button>
+    </div>
+  </div>
+
+  <script>
+    const apiBaseUrl = 'http://127.0.0.0:8000'; 
+    const accessToken = localStorage.getItem('access_token'); // Get access token from local storage
+
+    // Function to fetch and display API keys
+    async function fetchApiKeys() {
+      try {
+        const response = await fetch(`${apiBaseUrl}/api-keys`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch API keys');
+        }
+
+        const data = await response.json();
+        const apiKeysTableBody = document.getElementById('api-keys-table-body');
+        apiKeysTableBody.innerHTML = ''; // Clear existing keys
+
+        data.api_keys.forEach(apiKey => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td class="px-4 py-2 border-b">${apiKey.name}</td>
+            <td class="px-4 py-2 border-b api-key">${apiKey.key}</td>
+          `;
+          apiKeysTableBody.appendChild(row);
+        });
+      } catch (error) {
+        console.error('Error fetching API keys:', error);
+      }
+    }
+
+    // Function to create a new API key
+    async function createApiKey(name) {
+      try {
+        const response = await fetch(`${apiBaseUrl}/generate-api-key`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name }) // Pass the name in the request body
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to create API key');
+        }
+
+        const data = await response.json();
+        if (data.api_key) {
+          // Append the new API key to the table
+          const apiKeysTableBody = document.getElementById('api-keys-table-body');
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td class="px-4 py-2 border-b">${name}</td>
+            <td class="px-4 py-2 border-b api-key">${data.api_key}</td>
+          `;
+          apiKeysTableBody.appendChild(row);
+
+          // Display alert with the new API key
+          const apiKeyAlert = document.getElementById('api-key-alert');
+          const apiKeyAlertText = document.getElementById('api-key-alert-text');
+          apiKeyAlertText.textContent = `New API Key Created: ${data.api_key}`;
+          apiKeyAlert.classList.remove('hidden');
+
+          // Auto-hide alert after 3 seconds
+          setTimeout(() => {
+            apiKeyAlert.classList.add('hidden');
+          }, 3000);
+        }
+      } catch (error) {
+        console.error('Error creating API key:', error);
+      }
+    }
+
+    // Initialize the page by fetching existing API keys
+    fetchApiKeys();
+
+    // Show modal when "Create Key" button is clicked
+    document.getElementById('create-key-btn').addEventListener('click', () => {
+      document.getElementById('api-key-name-modal').style.display = 'block';
+    });
+
+    // Close modal when "Cancel" button is clicked
+    document.getElementById('api-key-name-cancel').addEventListener('click', () => {
+      document.getElementById('api-key-name-modal').style.display = 'none';
+    });
+
+    // Handle API key creation when "Create Key" button in modal is clicked
+    document.getElementById('api-key-name-submit').addEventListener('click', () => {
+      const name = document.getElementById('api-key-name-input').value.trim();
+      if (name) {
+        createApiKey(name);
+        document.getElementById('api-key-name-modal').style.display = 'none';
+      } else {
+        alert('Please enter a name for the API key');
+      }
+    });
+
+    // Close alert when "Close" button is clicked
+    document.getElementById('api-key-alert-close').addEventListener('click', () => {
+      document.getElementById('api-key-alert').classList.add('hidden');
+    });
+  </script>
+
+</body>
+</html>
