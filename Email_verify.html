@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Verification</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+
+  <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+    <h1 class="text-2xl font-bold text-center mb-2">Email Verification</h1>
+    <p class="text-center text-gray-600 mb-6">Please enter the verification code sent to your email.</p>
+
+    <form id="verify-email-form">
+      <div class="mb-4">
+        <label for="verificationCode" class="block text-sm font-medium text-gray-700">Verification Code</label>
+        <input type="text" id="verificationCode"
+          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500"
+          placeholder="Enter the code" />
+      </div>
+
+      <button type="submit" id="verify-btn"
+        class="w-full py-2 px-4 rounded-md transition duration-300 bg-[#118387] text-white hover:bg-purple-700">
+        Verify Email →
+      </button>
+    </form>
+
+    <div class="mt-6 text-center text-sm">
+      <span class="text-gray-600">Didn't receive the code? </span>
+      <button id="resend-btn" class="text-[#118387] hover:text-purple-500 font-medium underline">
+        Resend Code
+      </button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const email = localStorage.getItem('email'); // Retrieve email from localStorage
+      const form = document.getElementById('verify-email-form');
+      const verificationCodeInput = document.getElementById('verificationCode');
+      const verifyBtn = document.getElementById('verify-btn');
+      const resendBtn = document.getElementById('resend-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const verificationCode = verificationCodeInput.value;
+
+        if (email && verificationCode) {
+          const data = { email, code: verificationCode };
+
+          const url = new URL('http://127.0.0.1:8000/verify-email');
+          url.searchParams.append('gmail', email);
+          url.searchParams.append('ev_code', verificationCode);
+
+          try {
+            const response = await fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.ok) {
+              const responseData = await response.json();
+
+              if (responseData && responseData.message === 'Email verified successfully') {
+                localStorage.setItem('access_token', responseData.access_token);
+                window.location.href = 'dashboard.html';
+              } else {
+                alert('Verification failed. Please check the code and try again.');
+              }
+            } else {
+              alert('Error verifying email: ' + response.statusText);
+            }
+          } catch (error) {
+            alert('Network error: ' + error);
+          }
+        }
+      });
+
+      resendBtn.addEventListener('click', async () => {
+        if (email) {
+          try {
+            const response = await fetch('http://127.0.0.1:8000/resend-verification-email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email }),
+            });
+
+            if (response.ok) {
+              alert('Verification code resent to your email.');
+            } else {
+              alert('Error resending verification code: ' + response.statusText);
+            }
+          } catch (error) {
+            alert('Network error: ' + error);
+          }
+        } else {
+          alert('No email found. Please go back and enter your email again.');
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>

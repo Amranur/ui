@@ -161,13 +161,15 @@
             // Save the token in local storage
             localStorage.setItem('access_token', data.access_token);
             // Redirect to dashboard.html
-            window.location.href = 'dashboard.html';
+            window.location.replace('dashboard.html');
           } else {
+            alert('Access token is missing in the response');
             console.error('Access token is missing in the response');
           }
         })
         .catch(error => {
           console.error('Error:', error);
+          alert('Error');
           // Handle error response (e.g., show error message to user)
         });
       }
@@ -175,7 +177,7 @@
   
     signupButton.addEventListener('click', () => {
       // Handle sign-up button click
-      alert('Switching to sign-up form');
+      // alert('Switching to sign-up form');
       // You can add logic to switch to the sign-up form
     });
   

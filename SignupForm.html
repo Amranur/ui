@@ -171,11 +171,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (response.ok) {
           const responseData = await response.json();
-
+           
           if (responseData && responseData.message) {
-
+            localStorage.setItem('email', email);
             console.log('Success:', responseData);
-            window.location.href = 'LoginForm.html';
+            window.location.href = 'Email_verify.html';
             // Handle successful registration (e.g., redirect or show a message)
             // If you are expecting a token, make sure to adjust your FastAPI endpoint and frontend accordingly
           } else {
