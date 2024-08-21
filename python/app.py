@@ -1,3 +1,4 @@
+from typing import List
 import uvicorn
 from fastapi import FastAPI, HTTPException, Depends
 from sqlalchemy import create_engine, Column, String, Integer, DateTime, Boolean, ForeignKey
@@ -33,7 +34,7 @@ app.add_middleware(
 )
 
 # Database setup
-DATABASE_URL = "sqlite:///./search_api.db"
+DATABASE_URL = "sqlite:///./info_api.db"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -46,6 +47,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     city = Column(String)
     hashed_password = Column(String)
+    role = Column(String, default="customer")
 
 class APIKey(Base):
     __tablename__ = "api_keys"
@@ -115,6 +117,12 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     except JWTError:
         raise credentials_exception
 
+def role_required(roles: List[str]):
+    def role_checker(current_user: User = Depends(get_current_user)):
+        if current_user.role not in roles:
+            raise HTTPException(status_code=403, detail="Forbidden")
+        return current_user
+    return role_checker
 
 
 class UserCreateRequest(BaseModel):
@@ -123,20 +131,37 @@ class UserCreateRequest(BaseModel):
     password: str
     city: str
 
-# User registration
-@app.post("/register")
-def register_user(data: UserCreateRequest, db: Session = Depends(get_db)):
+# Register as Customer
+@app.post("/register-customer")
+def register_customer(data: UserCreateRequest, db: Session = Depends(get_db)):
     hashed_password = get_password_hash(data.password)
     user = User(
         name=data.name,
         email=data.email,
         city=data.city,
-        hashed_password=hashed_password
+        hashed_password=hashed_password,
+        role="customer"  # Fixed role
     )
     db.add(user)
     db.commit()
     db.refresh(user)
-    return {"message": "User registered successfully"}
+    return {"message": "Customer registered successfully"}
+
+# Register as Admin
+@app.post("/register-admin")
+def register_admin(data: UserCreateRequest, db: Session = Depends(get_db)):
+    hashed_password = get_password_hash(data.password)
+    user = User(
+        name=data.name,
+        email=data.email,
+        city=data.city,
+        hashed_password=hashed_password,
+        role="admin"  # Fixed role
+    )
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return {"message": "Admin registered successfully"}
 
 # User login and token generation
 
@@ -253,6 +278,11 @@ def get_request_logs(api_key: str, current_user: User = Depends(get_current_user
 
     logs = db.query(RequestLog).filter(RequestLog.api_key == api_key).all()
     return {"total_logs": len(logs),"request_logs": [{"id": log.id, "query": log.query, "timestamp": log.timestamp} for log in logs]}
+
+@app.post("/admin-only")
+def admin_only_endpoint(current_user: User = Depends(role_required(["admin"]))):
+    return {"message": "This is an admin-only endpoint"}
+
 # Clean whitespace function
 def clean_whitespace(text):
     text = re.sub(r'\s+', ' ', text)
