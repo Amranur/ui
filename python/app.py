@@ -211,43 +211,6 @@ def disable_api_key(api_key: str, current_user: User = Depends(get_current_user)
     db.commit()
     return {"message": "API key disabled"}
 
-# Search function using the API key
-@app.get("/search")
-def search_searxng(query: str, api_key: str, db: Session = Depends(get_db)):
-    # Check if API key exists and is active
-    db_key = db.query(APIKey).filter(APIKey.key == api_key, APIKey.status == True).first()
-    if not db_key:
-        raise HTTPException(status_code=403, detail="Invalid or disabled API key")
-
-    # Log the request
-    log = RequestLog(api_key=api_key, query=query)
-    db.add(log)
-    db.commit()
-
-    # Perform the search using SearxNG
-    search = SearxSearchWrapper(searx_host="http://127.0.0.1:32778")
-    results = search.results(query, num_results=10, engines=[])
-    all_cleaned_content = []
-
-    for result in results[:10]:
-        url = result['link']
-        print(f"Fetching {url}:")
-        
-        loader = WebBaseLoader(url)
-        try:
-            docs = loader.load()
-            page_content = docs[0].page_content
-            cleaned_content = clean_whitespace(page_content)
-            all_cleaned_content.append(cleaned_content)
-        except requests.exceptions.SSLError as e:
-            print(f"SSL Error while fetching {url}: {e}")
-        except Exception as e:
-            print(f"Error while processing {url}: {e}")
-
-    combined_content = "\n\n---\n\n".join(all_cleaned_content)
-    summary = summarize_content(combined_content)
-    
-    return {"summary": summary}
 
 # Get all API keys for the current user
 @app.get("/api-keys")
@@ -291,6 +254,45 @@ def clean_whitespace(text):
 # Initialize Groq client with direct API key
 api_key = "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"
 client = Groq(api_key=api_key)
+
+# Search function using the API key
+@app.get("/search")
+def search_searxng(query: str, api_key: str, db: Session = Depends(get_db)):
+    # Check if API key exists and is active
+    db_key = db.query(APIKey).filter(APIKey.key == api_key, APIKey.status == True).first()
+    if not db_key:
+        raise HTTPException(status_code=403, detail="Invalid or disabled API key")
+
+    # Log the request
+    log = RequestLog(api_key=api_key, query=query)
+    db.add(log)
+    db.commit()
+
+    # Perform the search using SearxNG
+    search = SearxSearchWrapper(searx_host="http://127.0.0.1:32778")
+    results = search.results(query, num_results=10, engines=[])
+    all_cleaned_content = []
+
+    for result in results[:10]:
+        url = result['link']
+        print(f"Fetching {url}:")
+        
+        loader = WebBaseLoader(url)
+        try:
+            docs = loader.load()
+            page_content = docs[0].page_content
+            cleaned_content = clean_whitespace(page_content)
+            all_cleaned_content.append(cleaned_content)
+        except requests.exceptions.SSLError as e:
+            print(f"SSL Error while fetching {url}: {e}")
+        except Exception as e:
+            print(f"Error while processing {url}: {e}")
+
+    combined_content = "\n\n---\n\n".join(all_cleaned_content)
+    summary = summarize_content(combined_content)
+    
+    return {"summary": summary}
+
 
 def summarize_content(content: str) -> str:
     try:
