@@ -1,6 +1,6 @@
 from typing import List
 import uvicorn
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends,status
 from sqlalchemy import create_engine, Column, String, Integer, DateTime, Boolean, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session, relationship
@@ -181,7 +181,7 @@ def login_user(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = D
     if not user or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=400, detail="Invalid credentials")
     access_token = create_access_token(data={"sub": str(user.id)}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"access_token": access_token, "token_type": "Bearer"}
 
 # API Key generation
 
@@ -194,13 +194,23 @@ def generate_api_key(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
+    # Check if an API key with the same name already exists for the current user
+    existing_key = db.query(APIKey).filter(
+        APIKey.name == api_key_data.name,
+        APIKey.user_id == current_user.id
+    ).first()
+
+    if existing_key:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="API key name must be unique for the current user")
+
+    # Generate a new API key
     key = str(uuid.uuid4())
     db_key = APIKey(key=key, name=api_key_data.name, user_id=current_user.id)
     db.add(db_key)
     db.commit()
     db.refresh(db_key)
+    
     return {"api_key": db_key.key, "status": "active", "name": db_key.name}
-
 # Disable an API key
 @app.post("/disable-api-key")
 def disable_api_key(api_key: str, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
@@ -218,20 +228,32 @@ def get_api_keys(current_user: User = Depends(get_current_user), db: Session = D
     keys = db.query(APIKey).filter(APIKey.user_id == current_user.id).all()
     return {"api_keys": [{"key": key.key, "name": key.name,"created_at": key.created_at, "status": "active" if key.status else "disabled"} for key in keys]}
 
+# Get all API keys
 @app.get("/api-keys-all")
 def get_api_keys(db: Session = Depends(get_db)):
     keys = db.query(APIKey).all()
     return {"api_keys": [{"key": key.key, "created_at": key.created_at, "status": "active" if key.status else "disabled"} for key in keys]}
 
+@app.get("/request-logs-all")
+def get_all_request_logs(db: Session = Depends(get_db)):
+    # Retrieve all request logs
+    logs = db.query(RequestLog).all()
+    
+    # Format the logs for response
+    return {"request_logs": [
+        {"id": log.id, "api_key": log.api_key, "query": log.query, "timestamp": log.timestamp} 
+        for log in logs
+    ]}
 
 # Get all request logs for the current user's API keys
-@app.get("/request-logs-all")
+@app.get("/request-logs-current-user")
 def get_request_logs(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     keys = db.query(APIKey).filter(APIKey.user_id == current_user.id).all()
     api_keys = [key.key for key in keys]
     logs = db.query(RequestLog).filter(RequestLog.api_key.in_(api_keys)).all()
     return {"request_logs": [{"id": log.id, "api_key": log.api_key, "query": log.query, "timestamp": log.timestamp} for log in logs]}
 
+# Get all request logs by api key
 @app.get("/request-logs")
 def get_request_logs(api_key: str, current_user: User = Depends(get_current_user),db: Session = Depends(get_db)):
     # Check if API key exists

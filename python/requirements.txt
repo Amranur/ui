@@ -8,3 +8,4 @@ beautifulsoup4
 langchain-community
 groq
 python-multipart
+bcrypt
