@@ -27,6 +27,7 @@ from email.mime.multipart import MIMEMultipart
 import random
 from sqlalchemy import String, Column
 from sqlalchemy import Text
+from sqlalchemy import func
 
 
 # Initialize FastAPI
@@ -246,6 +247,25 @@ def verify_email(gmail: str, ev_code: str, db: Session = Depends(get_db)):
     access_token = create_access_token(data={"sub": str(user.id)}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     return {"message": "Email verified successfully","acess_token":access_token}
 
+@app.post("/upgrade-to-paid/{user_id}")
+def upgrade_to_paid(user_id: int, db: Session = Depends(get_db)):
+    # Retrieve the user with the provided ID
+    user = db.query(User).filter(User.id == user_id).first()
+    
+    # Check if the user exists
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Check if the user has the role 'customer'
+    if user.role != "customer":
+        raise HTTPException(status_code=400, detail="User is not a customer or already upgraded")
+
+    # Update the user's role to 'customer_paid'
+    user.role = "customer_paid"
+    db.commit()
+    db.refresh(user)
+    
+    return {"message": "User role updated to customer_paid", "user_id": user.id, "new_role": user.role}
 # Register as Admin
 @app.post("/register-admin")
 def register_admin(data: UserCreateRequest, db: Session = Depends(get_db)):
@@ -314,6 +334,17 @@ def generate_api_key(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
+    # Check the number of API keys already created by the current user
+    api_key_count = db.query(APIKey).filter(APIKey.user_id == current_user.id).count()
+
+    if current_user.role == "customer":
+        # Check the number of API keys already created by the current customer
+        api_key_count = db.query(APIKey).filter(APIKey.user_id == current_user.id).count()
+
+        # Enforce the limit of 5 API keys for customers
+        if api_key_count >= 5:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="API key creation limit reached. You cannot generate more than 5 API keys.")
+    
     # Check if an API key with the same name already exists for the current user
     existing_key = db.query(APIKey).filter(
         APIKey.name == api_key_data.name,
@@ -350,12 +381,12 @@ def get_api_keys(current_user: User = Depends(get_current_user), db: Session = D
 
 # Get all API keys
 @app.get("/api-keys-all")
-def get_api_keys(db: Session = Depends(get_db)):
+def get_api_keys(current_user: User = Depends(get_current_user),db: Session = Depends(get_db)):
     keys = db.query(APIKey).all()
     return {"api_keys": [{"key": key.key, "created_at": key.created_at, "status": "active" if key.status else "disabled"} for key in keys]}
 
 @app.get("/request-logs-all")
-def get_all_request_logs(db: Session = Depends(get_db)):
+def get_all_request_logs(current_user: User = Depends(get_current_user),db: Session = Depends(get_db)):
     # Retrieve all request logs
     logs = db.query(RequestLog).all()
     
@@ -445,11 +476,11 @@ def delete_documentation(db: Session, doc_id: int):
     return None
 
 @app.post("/documentation/")
-def create_documentation_endpoint(doc: APIDocumentationCreate, db: Session = Depends(get_db)):
+def create_documentation_endpoint(doc: APIDocumentationCreate,current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     return create_documentation(db=db, doc=doc)
 
 @app.get("/documentation/{doc_id}")
-def read_documentation(doc_id: int, db: Session = Depends(get_db)):
+def read_documentation(doc_id: int, current_user: User = Depends(get_current_user),db: Session = Depends(get_db)):
     db_doc = get_documentation(db, doc_id)
     if db_doc is None:
         raise HTTPException(status_code=404, detail="Documentation not found")
@@ -458,19 +489,19 @@ def read_documentation(doc_id: int, db: Session = Depends(get_db)):
 @app.get("/documentation/")
 def read_all_documentation(skip: int = 0, limit: int = 10, 
                            title: Optional[str] = None, section: Optional[str] = None, 
-                           sort_field: Optional[str] = None, sort_order: Optional[str] = None,
+                           sort_field: Optional[str] = None, sort_order: Optional[str] = None,current_user: User = Depends(get_current_user),
                            db: Session = Depends(get_db)):
     return get_all_documentation(db, skip, limit, title, section, sort_field, sort_order)
 
 @app.put("/documentation/{doc_id}")
-def update_documentation_endpoint(doc_id: int, doc: APIDocumentationUpdate, db: Session = Depends(get_db)):
+def update_documentation_endpoint(doc_id: int, doc: APIDocumentationUpdate,current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     updated_doc = update_documentation(db=db, doc_id=doc_id, doc_update=doc)
     if updated_doc is None:
         raise HTTPException(status_code=404, detail="Documentation not found")
     return updated_doc
 
 @app.delete("/documentation/{doc_id}")
-def delete_documentation_endpoint(doc_id: int, db: Session = Depends(get_db)):
+def delete_documentation_endpoint(doc_id: int,current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     deleted_doc = delete_documentation(db, doc_id)
     if deleted_doc is None:
         raise HTTPException(status_code=404, detail="Documentation not found")
@@ -528,6 +559,56 @@ def search_searxng(query: str, api_key: str, db: Session = Depends(get_db)):
     
     return {"summary": summary}
 
+@app.get("/search2")
+def search_searxng(query: str, api_key: str, db: Session = Depends(get_db)):
+    # Check if API key exists and is active
+    db_key = db.query(APIKey).filter(APIKey.key == api_key, APIKey.status == True).first()
+    if not db_key:
+        raise HTTPException(status_code=403, detail="Invalid or disabled API key")
+
+    # Retrieve the user associated with the API key
+    user = db.query(User).filter(User.id == db_key.user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User associated with the API key not found")
+
+    # Check if the user has the role 'customer'
+    if user.role == "customer":
+        # Count the number of queries made with this API key
+        query_count = db.query(func.count(RequestLog.id)).filter(RequestLog.api_key == api_key).scalar()
+
+        # Check if the number of queries exceeds the free quota
+        if query_count >= 5:
+            return {"message": "Your free quota is over. Please make a payment to continue using the service."}
+
+    # Log the request
+    log = RequestLog(api_key=api_key, query=query)
+    db.add(log)
+    db.commit()
+
+    # Perform the search using SearxNG
+    search = SearxSearchWrapper(searx_host="http://127.0.0.1:32778")
+    results = search.results(query, num_results=10, engines=[])
+
+    all_cleaned_content = []
+    for result in results[:10]:
+        url = result['link']
+        print(f"Fetching {url}:")
+        
+        loader = WebBaseLoader(url)
+        try:
+            docs = loader.load()
+            page_content = docs[0].page_content
+            cleaned_content = clean_whitespace(page_content)
+            all_cleaned_content.append(cleaned_content)
+        except requests.exceptions.SSLError as e:
+            print(f"SSL Error while fetching {url}: {e}")
+        except Exception as e:
+            print(f"Error while processing {url}: {e}")
+
+    combined_content = "\n\n---\n\n".join(all_cleaned_content)
+    summary = summarize_content(combined_content)
+    
+    return {"summary": summary}
 
 def summarize_content(content: str) -> str:
     try:

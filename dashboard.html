@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,14 +20,16 @@
       color: white;
       border: 1px solid #2f855a;
       border-radius: 4px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       padding: 10px;
       width: 250px;
       z-index: 1000;
     }
+
     .alert.hidden {
       display: none;
     }
+
     .modal {
       display: none;
       position: fixed;
@@ -35,20 +38,23 @@
       transform: translate(-50%, -50%);
       background: white;
       border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       padding: 20px;
       width: 300px;
       z-index: 1000;
     }
+
     .modal-header {
       border-bottom: 1px solid #ddd;
       padding-bottom: 10px;
     }
+
     .modal-footer {
       display: flex;
       justify-content: flex-end;
       margin-top: 10px;
     }
+
     .sidebar {
       background-color: #f8f9fa;
       height: 100%;
@@ -56,13 +62,15 @@
       top: 0;
       left: 0;
       width: 250px;
-      box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+      box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
       padding: 20px;
     }
+
     .sidebar h2 {
       font-size: 1.25rem;
       color: #3182ce;
     }
+
     .sidebar a {
       display: block;
       padding: 16px;
@@ -70,19 +78,23 @@
       text-decoration: none;
       font-weight: 500;
     }
+
     .sidebar a.active {
       background-color: #e2e8f0;
       color: #3182ce;
       border-left: 4px solid #3182ce;
     }
+
     .sidebar a:hover {
       background-color: #e2e8f0;
     }
+
     .main-content {
       margin-left: 250px;
       padding: 20px;
       flex: 1;
     }
+
     .btn {
       display: inline-block;
       padding: 10px 20px;
@@ -91,31 +103,40 @@
       text-align: center;
       cursor: pointer;
     }
+
     .btn-blue {
       background-color: #3182ce;
     }
+
     .btn-blue:hover {
       background-color: #2b6cb0;
     }
+
     .btn-gray {
       background-color: #edf2f7;
       color: #4a5568;
     }
+
     .btn-gray:hover {
       background-color: #e2e8f0;
     }
+
     .content-placeholder {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: calc(100vh - 40px); /* Adjust for sidebar height */
+      height: calc(100vh - 40px);
+      /* Adjust for sidebar height */
     }
+
     .hidden {
       display: none;
     }
   </style>
 </head>
-<body class="h-screen flex" style="background:radial-gradient(circle, #0a6065 0%, rgb(1, 121, 128) 50%, rgba(245, 45, 48, 0.2) 100%)">
+
+<body class="h-screen flex"
+  style="background:radial-gradient(circle, #0a6065 0%, rgb(1, 121, 128) 50%, rgba(245, 45, 48, 0.2) 100%)">
 
 
   <!-- Sidebar -->
@@ -137,9 +158,11 @@
       <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
         <h2 class="text-xl font-semibold mb-4">API Keys</h2>
         <p class="text-gray-700 mb-4">
-          The key is used to authenticate your requests to the <a href="#" class="text-blue-500 hover:underline">Research API</a>. To learn more, see the <a href="#" class="text-blue-500 hover:underline">documentation page</a>.
+          The key is used to authenticate your requests to the <a href="#"
+            class="text-blue-500 hover:underline">Research API</a>. To learn more, see the <a href="#"
+            class="text-blue-500 hover:underline">documentation page</a>.
         </p>
-        
+
         <!-- API Keys Table -->
         <table class="min-w-full bg-white border border-gray-300 rounded-lg mb-4">
           <thead>
@@ -153,17 +176,19 @@
             <!-- API keys will be dynamically inserted here -->
           </tbody>
         </table>
-        
+
         <button id="create-key-btn" class="btn btn-blue">Create Key</button>
       </div>
     </div>
 
-     <!-- Document Content -->
+    <!-- Document Content -->
     <div id="documentation-content" class="content-placeholder hidden">
       <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
         <h2 class="text-xl font-semibold mb-4">Documentation</h2>
         <p class="text-gray-700 mb-4">
-          Welcome to the documentation section. Here you'll find all the necessary details to use our APIs effectively. For any further assistance, you can refer to the <a href="#" class="text-blue-500 hover:underline">API reference</a>.
+          Welcome to the documentation section. Here you'll find all the necessary details to use our APIs effectively.
+          For any further assistance, you can refer to the <a href="#" class="text-blue-500 hover:underline">API
+            reference</a>.
         </p>
         <p class="text-gray-700">
           - **Getting Started**: Learn how to set up and make your first API call.
@@ -177,12 +202,13 @@
       </div>
     </div>
 
-     <!-- Settings Content -->
+    <!-- Settings Content -->
     <div id="settings-content" class="content-placeholder hidden">
       <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
         <h2 class="text-xl font-semibold mb-4">Settings</h2>
         <p class="text-gray-700 mb-4">
-          Manage your application settings here. Customize preferences, update profile details, and configure your application to better suit your needs.
+          Manage your application settings here. Customize preferences, update profile details, and configure your
+          application to better suit your needs.
         </p>
         <p class="text-gray-700">
           - **Profile Settings**: Update your personal information and preferences.
@@ -196,12 +222,13 @@
       </div>
     </div>
 
-     <!-- Community Content -->
+    <!-- Community Content -->
     <div id="community-content" class="content-placeholder hidden">
       <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
         <h2 class="text-xl font-semibold mb-4">Community</h2>
         <p class="text-gray-700 mb-4">
-          Manage your community here. Customize preferences, update profile details, and configure your application to better suit your needs.
+          Manage your community here. Customize preferences, update profile details, and configure your application to
+          better suit your needs.
         </p>
         <p class="text-gray-700">
           - **Profile Community**: Update your personal information and preferences.
@@ -228,7 +255,8 @@
     <div class="modal-header">
       <h3 class="text-lg font-semibold">Enter API Key Name</h3>
     </div>
-    <input id="api-key-name-input" type="text" class="w-full px-3 py-2 border rounded-lg mb-4" placeholder="Enter a name for your API key">
+    <input id="api-key-name-input" type="text" class="w-full px-3 py-2 border rounded-lg mb-4"
+      placeholder="Enter a name for your API key">
     <div class="modal-footer">
       <button id="api-key-name-cancel" class="btn btn-gray">Cancel</button>
       <button id="api-key-name-confirm" class="btn btn-blue">Create</button>
@@ -236,7 +264,7 @@
   </div>
 
   <script>
-const apiBaseUrl = 'http://127.0.0.1:8000'; 
+    const apiBaseUrl = 'http://127.0.0.1:8000';
     const accessToken = localStorage.getItem('access_token'); // Get access token from local storage
 
     // Function to fetch and display API keys
@@ -286,7 +314,8 @@ const apiBaseUrl = 'http://127.0.0.1:8000';
         });
 
         if (!response.ok) {
-          throw new Error('Failed to create API key');
+          // alert("Failed to create API key.Same Name or Free Api key Create Limit Exceed");
+          throw new Error('Failed to create API key - Limit exceed or same name');
         }
 
         const data = await response.json();
@@ -313,12 +342,61 @@ const apiBaseUrl = 'http://127.0.0.1:8000';
           }, 3000);
         }
       } catch (error) {
+        alert(error);
         console.error('Error creating API key:', error);
       }
     }
 
     // Initialize the page by fetching existing API keys
     fetchApiKeys();
+
+    // Function to fetch and display documentation data
+    async function fetchDocumentation() {
+      try {
+        const response = await fetch(`${apiBaseUrl}/documentation/?skip=0&limit=10&title=Api`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch documentation data');
+        }
+
+        const data = await response.json();
+        const documentationContent = document.getElementById('documentation-content');
+        documentationContent.innerHTML = '<h3 class="text-lg font-semibold mb-2">API -</h3>';
+
+        const docContainer = document.createElement('div');
+        docContainer.style.display = 'flex';
+        docContainer.style.flexWrap = 'wrap';
+        docContainer.style.justifyContent = 'space-between';
+        docContainer.style.gap = '20px'; // Adds space between the boxes
+
+        data.forEach(doc => {
+          const docElement = document.createElement('div');
+          docElement.className = 'mb-4';
+          docElement.style.width = 'calc(33.333% - 20px)'; // Makes each box 1/3 of the width minus the gap
+          docElement.style.boxSizing = 'border-box';
+          docElement.innerHTML = `
+    <div class="bg-white p-4 rounded-lg shadow-lg" style="max-height: 300px; overflow-y: auto;">
+      <pre class="bg-gray-100 p-2 rounded">${doc.section}</pre>
+      <p class="text-gray-700 mt-2">${doc.content}</p>
+      <pre class="bg-gray-100 p-2 rounded">${doc.example_code}</pre>
+    </div>
+  `;
+          docContainer.appendChild(docElement);
+        });
+
+        documentationContent.appendChild(docContainer);
+
+
+      } catch (error) {
+        console.error('Error fetching documentation data:', error);
+      }
+    }
 
     // Content switching logic
     function showContent(contentId) {
@@ -338,6 +416,7 @@ const apiBaseUrl = 'http://127.0.0.1:8000';
     document.getElementById('documentation-link').addEventListener('click', () => {
       showContent('documentation-content');
       setActiveLink('documentation-link');
+      fetchDocumentation()
     });
 
     document.getElementById('settings-link').addEventListener('click', () => {
@@ -409,26 +488,10 @@ const apiBaseUrl = 'http://127.0.0.1:8000';
     // Close alert
     document.getElementById('api-key-alert-close').addEventListener('click', hideAlert);
 
-    // Function to create an API key
-    function createApiKey(name) {
-      const apiKey = 'sk-' + Math.random().toString(36).substr(2, 10);
-      const createdAt = new Date().toLocaleString();
 
-      // Simulate an API call and append the API key to the table
-      const tableBody = document.getElementById('api-keys-table-body');
-      const newRow = document.createElement('tr');
-      newRow.innerHTML = `
-        <td class="px-4 py-2 border-b">${name}</td>
-        <td class="px-4 py-2 border-b api-key">${apiKey}</td>
-        <td class="px-4 py-2 border-b">${createdAt}</td>
-      `;
-      tableBody.appendChild(newRow);
-
-      // Show alert with API key
-      showAlert(`API Key "${name}" created successfully!`);
-    }
   </script>
 
-  
+
 </body>
+
 </html>

@@ -179,9 +179,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Handle successful registration (e.g., redirect or show a message)
             // If you are expecting a token, make sure to adjust your FastAPI endpoint and frontend accordingly
           } else {
+            alert("Register not Succedd")
             console.error('Message is missing in the response');
           }
         } else {
+          alert('Error:', response.statusText)
           console.error('Error:', response.statusText);
         }
       } catch (error) {
