@@ -1,6 +1,8 @@
-from typing import List
+from typing import List, Optional
+from schemas import APIDocumentationCreate, APIDocumentationUpdate
 import uvicorn
 from fastapi import FastAPI, HTTPException, Depends,status
+from fastapi import BackgroundTasks
 from sqlalchemy import create_engine, Column, String, Integer, DateTime, Boolean, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session, relationship
@@ -19,6 +21,12 @@ from fastapi.security import OAuth2PasswordBearer
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import random
+from sqlalchemy import String, Column
+from sqlalchemy import Text
 
 
 # Initialize FastAPI
@@ -34,38 +42,54 @@ app.add_middleware(
 )
 
 # Database setup
-DATABASE_URL = "sqlite:///./info_api.db"
+DATABASE_URL = "mysql+mysqlconnector://root@localhost:3306/sobjanta_api"  # Replace with your MySQL credentials
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-# Models
 class User(Base):
     __tablename__ = "users"
+    
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    email = Column(String, unique=True, index=True)
-    city = Column(String)
-    hashed_password = Column(String)
-    role = Column(String, default="customer")
+    name = Column(String(255))  # Specify length for MySQL compatibility
+    email = Column(String(255), unique=True, index=True)  # Specify length
+    city = Column(String(255), nullable=True)  # Specify length, nullable if not always present
+    hashed_password = Column(String(255))
+    role = Column(String(50), default="customer")  # Specify length
+    email_verified = Column(Boolean, default=False)
+    ev_code = Column(String(6), nullable=True)  # Assuming a 6-character code
+    ev_code_expire = Column(DateTime, nullable=True)
 
 class APIKey(Base):
     __tablename__ = "api_keys"
     
-    key = Column(String, primary_key=True, index=True)
-    name = Column(String, nullable=False)  # Add the name field
+    key = Column(String(50), primary_key=True, index=True)  # Specify length
+    name = Column(String(255), nullable=False)  # Specify length
     created_at = Column(DateTime, default=datetime.utcnow)
     status = Column(Boolean, default=True)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)  # Ensure ForeignKey is not nullable
     user = relationship("User")
-
 
 class RequestLog(Base):
     __tablename__ = "request_logs"
+    
     id = Column(Integer, primary_key=True, index=True)
-    api_key = Column(String, index=True)
-    query = Column(String)
+    api_key = Column(String(50), index=True)  # Specify length
+    query = Column(String(1024), nullable=True)  # Larger length for query logs, nullable if not always present
     timestamp = Column(DateTime, default=datetime.utcnow)
+    
+    
+class API_Documentation(Base):
+    __tablename__ = "api_documentation"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(255), nullable=False)
+    section = Column(String(50), nullable=False)
+    content = Column(Text(), nullable=False)
+    example_code = Column(Text(), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
 
 # Create the database tables
 Base.metadata.create_all(bind=engine)
@@ -133,19 +157,94 @@ class UserCreateRequest(BaseModel):
 
 # Register as Customer
 @app.post("/register-customer")
-def register_customer(data: UserCreateRequest, db: Session = Depends(get_db)):
+def register_customer(
+    data: UserCreateRequest, 
+    db: Session = Depends(get_db),
+    background_tasks=BackgroundTasks
+):
     hashed_password = get_password_hash(data.password)
+    ev_code, ev_code_expire = generate_ev_code_and_expiry()
+
     user = User(
         name=data.name,
         email=data.email,
         city=data.city,
         hashed_password=hashed_password,
-        role="customer"  # Fixed role
+        role="customer",
+        email_verified=False,
+        ev_code=ev_code,
+        ev_code_expire=ev_code_expire
     )
+    
     db.add(user)
     db.commit()
     db.refresh(user)
-    return {"message": "Customer registered successfully"}
+    
+    # Send verification email in the background
+   # background_tasks.add_task(send_verification_email, user.email, ev_code)
+
+    return {"message": "Customer registered successfully. Please check your email for verification."}
+
+def generate_six_digit_code():
+    return str(random.randint(100000, 999999))
+
+def generate_ev_code_and_expiry():
+    code = generate_six_digit_code()
+    expiry = datetime.utcnow() + timedelta(minutes=5)
+    return code, expiry
+
+def send_verification_email(email: str, ev_code: str):
+    print("come1")
+    # SMTP server configuration
+    smtp_host = "mail.sobjanta.ai"
+    smtp_port = 465  # SSL/TLS port
+    smtp_user = "sobjanta@sobjanta.ai"
+    smtp_password = "!ry1wrI_cV@$"
+    print("come12")
+    # Email content
+    subject = "Your Email Verification Code"
+    body = f"Your verification code is {ev_code}. It will expire in 5 minutes."
+
+    # Create the email
+    msg = MIMEMultipart()
+    msg['From'] = smtp_user
+    msg['To'] = email
+    msg['Subject'] = subject
+    msg.attach(MIMEText(body, 'plain'))
+
+    # Send the email
+    try:
+        server = smtplib.SMTP(smtp_host, smtp_port)
+        server.starttls()  # Secure the connection
+        server.login(smtp_user, smtp_password)
+        server.sendmail(smtp_user, email, msg.as_string())
+        server.quit()
+        print("Verification email sent successfully")
+    except Exception as e:
+        print(f"Failed to send verification email: {e}")
+
+
+@app.post("/verify-email")
+def verify_email(gmail: str, ev_code: str, db: Session = Depends(get_db)):
+    # Find the user by their email
+    user = db.query(User).filter(User.email == gmail).first()
+
+    if not user:
+        raise HTTPException(status_code=400, detail="User with this email does not exist")
+
+    if user.ev_code != ev_code:
+        raise HTTPException(status_code=400, detail="Invalid verification code")
+
+    if user.ev_code_expire < datetime.utcnow():
+        raise HTTPException(status_code=400, detail="Verification code has expired")
+
+    # If everything is okay, verify the email
+    user.email_verified = True
+    user.ev_code = None  # Optionally clear the verification code
+    user.ev_code_expire = None  # Clear the expiration time
+    db.commit()
+    access_token = create_access_token(data={"sub": str(user.id)}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    return {"message": "Email verified successfully","acess_token":access_token}
 
 # Register as Admin
 @app.post("/register-admin")
@@ -165,16 +264,6 @@ def register_admin(data: UserCreateRequest, db: Session = Depends(get_db)):
 
 # User login and token generation
 
-# @app.post("/login")
-# def login_user(email: str, password: str, db: Session = Depends(get_db)):
-#     user = db.query(User).filter(User.email == email).first()
-#     if not user or not verify_password(password, user.hashed_password):
-#         raise HTTPException(status_code=400, detail="Invalid credentials")
-#     access_token = create_access_token(data={"sub": str(user.id)}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-#     return {"access_token": access_token, "token_type": "sobjanta"}
-
-# Login endpoint for obtaining a token
-
 @app.post("/login")
 def login_user(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == form_data.username).first()
@@ -183,8 +272,39 @@ def login_user(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = D
     access_token = create_access_token(data={"sub": str(user.id)}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     return {"access_token": access_token, "token_type": "Bearer"}
 
-# API Key generation
+@app.post("/login2")
+def login_user(
+    form_data: OAuth2PasswordRequestForm = Depends(), 
+    db: Session = Depends(get_db),
+    background_tasks=BackgroundTasks
+):
+    user = db.query(User).filter(User.email == form_data.username).first()
 
+    if not user or not verify_password(form_data.password, user.hashed_password):
+        raise HTTPException(status_code=400, detail="Invalid credentials")
+
+    if not user.email_verified:
+        # Generate a new verification code and update the expiration
+        ev_code, ev_code_expire = generate_ev_code_and_expiry()
+        user.ev_code = ev_code
+        user.ev_code_expire = ev_code_expire
+        db.commit()
+
+        # Send the verification email
+        #background_tasks.add_task(send_verification_email, user.email, user.ev_code)
+
+        raise HTTPException(status_code=400, detail="Email not verified. A new verification code has been sent to your email.")
+
+    # If email is verified, create the access token
+    access_token = create_access_token(
+        data={"sub": str(user.id)}, 
+        expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    )
+    
+    return {"access_token": access_token, "token_type": "Bearer"}
+
+
+# API Key generation
 class APIKeyCreateRequest(BaseModel):
     name: str
 
@@ -263,6 +383,99 @@ def get_request_logs(api_key: str, current_user: User = Depends(get_current_user
 
     logs = db.query(RequestLog).filter(RequestLog.api_key == api_key).all()
     return {"total_logs": len(logs),"request_logs": [{"id": log.id, "query": log.query, "timestamp": log.timestamp} for log in logs]}
+
+##api doc
+def create_documentation(db: Session, doc: APIDocumentationCreate):
+    db_doc = API_Documentation(
+        title=doc.title,
+        section=doc.section,
+        content=doc.content,
+        example_code=doc.example_code
+    )
+    db.add(db_doc)
+    db.commit()
+    db.refresh(db_doc)
+    return db_doc
+
+def get_documentation(db: Session, doc_id: int):
+    return db.query(API_Documentation).filter(API_Documentation.id == doc_id).first()
+
+def get_all_documentation(db: Session, skip: int = 0, limit: int = 10, 
+                           title: Optional[str] = None, section: Optional[str] = None, 
+                           sort_field: Optional[str] = None, sort_order: Optional[str] = None):
+    query = db.query(API_Documentation)
+    
+    if title:
+        query = query.filter(API_Documentation.title.like(f"%{title}%"))
+    
+    if section:
+        query = query.filter(API_Documentation.section.like(f"%{section}%"))
+    
+    if sort_field and sort_order:
+        if sort_order.lower() == "asc":
+            query = query.order_by(getattr(API_Documentation, sort_field).asc())
+        elif sort_order.lower() == "desc":
+            query = query.order_by(getattr(API_Documentation, sort_field).desc())
+        else:
+            raise HTTPException(status_code=400, detail="Invalid sort order. Use 'asc' or 'desc'.")
+    
+    # Apply offset and limit after filtering and sorting
+    query = query.offset(skip).limit(limit)
+    
+    return query.all()
+
+def update_documentation(db: Session, doc_id: int, doc_update: APIDocumentationCreate):
+    db_doc = db.query(API_Documentation).filter(API_Documentation.id == doc_id).first()
+    if db_doc:
+        db_doc.title = doc_update.title
+        db_doc.section = doc_update.section
+        db_doc.content = doc_update.content
+        db_doc.example_code = doc_update.example_code
+        db.commit()
+        db.refresh(db_doc)
+        return db_doc
+    return None
+
+def delete_documentation(db: Session, doc_id: int):
+    db_doc = db.query(API_Documentation).filter(API_Documentation.id == doc_id).first()
+    if db_doc:
+        db.delete(db_doc)
+        db.commit()
+        return db_doc
+    return None
+
+@app.post("/documentation/")
+def create_documentation_endpoint(doc: APIDocumentationCreate, db: Session = Depends(get_db)):
+    return create_documentation(db=db, doc=doc)
+
+@app.get("/documentation/{doc_id}")
+def read_documentation(doc_id: int, db: Session = Depends(get_db)):
+    db_doc = get_documentation(db, doc_id)
+    if db_doc is None:
+        raise HTTPException(status_code=404, detail="Documentation not found")
+    return db_doc
+
+@app.get("/documentation/")
+def read_all_documentation(skip: int = 0, limit: int = 10, 
+                           title: Optional[str] = None, section: Optional[str] = None, 
+                           sort_field: Optional[str] = None, sort_order: Optional[str] = None,
+                           db: Session = Depends(get_db)):
+    return get_all_documentation(db, skip, limit, title, section, sort_field, sort_order)
+
+@app.put("/documentation/{doc_id}")
+def update_documentation_endpoint(doc_id: int, doc: APIDocumentationUpdate, db: Session = Depends(get_db)):
+    updated_doc = update_documentation(db=db, doc_id=doc_id, doc_update=doc)
+    if updated_doc is None:
+        raise HTTPException(status_code=404, detail="Documentation not found")
+    return updated_doc
+
+@app.delete("/documentation/{doc_id}")
+def delete_documentation_endpoint(doc_id: int, db: Session = Depends(get_db)):
+    deleted_doc = delete_documentation(db, doc_id)
+    if deleted_doc is None:
+        raise HTTPException(status_code=404, detail="Documentation not found")
+    return deleted_doc
+
 
 @app.post("/admin-only")
 def admin_only_endpoint(current_user: User = Depends(role_required(["admin"]))):

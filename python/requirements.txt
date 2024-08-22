@@ -9,3 +9,5 @@ langchain-community
 groq
 python-multipart
 bcrypt
+mysql-connector-python
+pymysql

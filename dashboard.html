@@ -132,6 +132,7 @@
   <!-- Main Content -->
   <div id="main-content" class="main-content">
 
+    <!-- API Keys Content -->
     <div id="api-keys-content" class="content-placeholder hidden">
       <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
         <h2 class="text-xl font-semibold mb-4">API Keys</h2>
@@ -157,6 +158,7 @@
       </div>
     </div>
 
+     <!-- Document Content -->
     <div id="documentation-content" class="content-placeholder hidden">
       <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
         <h2 class="text-xl font-semibold mb-4">Documentation</h2>
@@ -175,6 +177,7 @@
       </div>
     </div>
 
+     <!-- Settings Content -->
     <div id="settings-content" class="content-placeholder hidden">
       <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
         <h2 class="text-xl font-semibold mb-4">Settings</h2>
@@ -193,6 +196,7 @@
       </div>
     </div>
 
+     <!-- Community Content -->
     <div id="community-content" class="content-placeholder hidden">
       <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
         <h2 class="text-xl font-semibold mb-4">Community</h2>
@@ -232,7 +236,6 @@
   </div>
 
   <script>
-
 const apiBaseUrl = 'http://127.0.0.1:8000'; 
     const accessToken = localStorage.getItem('access_token'); // Get access token from local storage
 
@@ -425,5 +428,7 @@ const apiBaseUrl = 'http://127.0.0.1:8000';
       showAlert(`API Key "${name}" created successfully!`);
     }
   </script>
+
+  
 </body>
 </html>
