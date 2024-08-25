@@ -61,6 +61,17 @@ class User(Base):
     ev_code = Column(String(6), nullable=True)  # Assuming a 6-character code
     ev_code_expire = Column(DateTime, nullable=True)
 
+class Payment(Base):
+    __tablename__ = "payments"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)  # Ensure ForeignKey is not nullable
+    amount = Column(Integer, nullable=False)
+    payment_date = Column(DateTime, default=datetime.utcnow)
+    payment_type = Column(String(50), nullable=False)  # e.g., "subscription", "one-time"
+    status = Column(String(50), default="completed")  # e.g., "completed", "pending"
+    user = relationship("User")
+
 class APIKey(Base):
     __tablename__ = "api_keys"
     
@@ -264,6 +275,17 @@ def upgrade_to_paid(user_id: int, db: Session = Depends(get_db)):
     user.role = "customer_paid"
     db.commit()
     db.refresh(user)
+
+    # Create a new payment record
+    payment = Payment(
+        user_id=user.id,
+        amount=100,  # Example amount, adjust as needed
+        payment_type="subscription",
+        status="completed"
+    )
+    db.add(payment)
+    db.commit()
+    db.refresh(payment)
     
     return {"message": "User role updated to customer_paid", "user_id": user.id, "new_role": user.role}
 # Register as Admin
