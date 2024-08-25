@@ -586,11 +586,11 @@ def search_searxng(query: str, api_key: str, db: Session = Depends(get_db)):
     db.commit()
 
     # Perform the search using SearxNG
-    search = SearxSearchWrapper(searx_host="http://127.0.0.1:32778")
+    search = SearxSearchWrapper(searx_host="http://127.0.0.1:8888")
     results = search.results(query, num_results=10, engines=[])
 
     all_cleaned_content = []
-    for result in results[:10]:
+    for result in results[:5]:
         url = result['link']
         print(f"Fetching {url}:")
         

@@ -13,5 +13,44 @@ sudo apt install python3.11
 sudo apt update
 
 
+//locally searxng
+setup:
+git clone searxng github
+cd searxng
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+
+
+run:
+python searx/webapp.py
+
+if sear import problem came - export PYTHONPATH=$PYTHONPATH:$(pwd)
+if .toml then:
+cmd - sudo mkdir -p /etc/searxng
+sudo nano /etc/searxng/limiter.toml
+
+and in limiter.toml modify these:
+
+[rate_limit]
+requests = 100  # Number of allowed requests
+period = 60  # Time window in seconds
+
+
+xaamp
+install process:
+wget https://www.apachefriends.org/xampp-files/8.2.0/xampp-linux-x64-8.2.0-0-installer.run
+chmod +x xampp-linux-x64-8.2.0-0-installer.run
+sudo ./xampp-linux-x64-8.2.0-0-installer.run
+
+run process:
+http://localhost
+
+sudo /opt/lampp/xampp start
+sudo /opt/lampp/xampp stop
+sudo /opt/lampp/xampp restart
+
+
 
 
